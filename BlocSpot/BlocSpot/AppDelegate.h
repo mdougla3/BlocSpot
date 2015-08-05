@@ -1,25 +1,25 @@
-////
-////  AppDelegate.h
-////  BlocSpot
-////
-////  Created by McCay Barnes on 8/4/15.
-////  Copyright (c) 2015 McCay Barnes. All rights reserved.
-////
 //
-//#import <UIKit/UIKit.h>
-//#import <CoreData/CoreData.h>
+//  AppDelegate.h
+//  BlocSpot
 //
-//@interface AppDelegate : UIResponder <UIApplicationDelegate>
+//  Created by McCay Barnes on 8/4/15.
+//  Copyright (c) 2015 McCay Barnes. All rights reserved.
 //
-//@property (strong, nonatomic) UIWindow *window;
-//
-//@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-//@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-//@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-//
-//- (void)saveContext;
-//- (NSURL *)applicationDocumentsDirectory;
-//
-//
-//@end
-//
+
+#import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
+
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
+
+
+@end
+
