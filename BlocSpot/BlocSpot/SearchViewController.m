@@ -7,10 +7,14 @@
 //
 
 #import "SearchViewController.h"
+#import "MapItemData.h"
 
-@interface SearchViewController () <UISearchBarDelegate, UISearchDisplayDelegate>
+@interface SearchViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *searchTableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) MapItemData *data;
+@property (strong, nonatomic) NSMutableArray *searchMapItems;
 
 @end
 
@@ -18,11 +22,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+ 
+    return self.searchMapItems.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    
+    return cell;
+}
+
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
+    self.data = [[MapItemData alloc] init];
+    [self.data returnMapItems:^(NSArray *mapItems, NSString *text) {
+        for (MKMapItem *item in mapItems) {
+            NSMutableArray *mapItems = [NSMutableArray new];
+            [mapItems addObject:item];
+            text = searchText;
+            self.searchMapItems = mapItems;
+        }
+    }];
+    
+    [self.searchTableView reloadData];
 }
 
 @end

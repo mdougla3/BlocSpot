@@ -27,6 +27,7 @@
     annotationView.enabled = YES;
     annotationView.canShowCallout = YES;
     annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    annotationView.image = [UIImage imageNamed:@"pin.jpg"];
     
     return annotationView;
 }
