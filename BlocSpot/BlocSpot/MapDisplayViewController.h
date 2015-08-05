@@ -1,13 +1,13 @@
+////
+////  MapDisplayViewController.h
+////  BlocSpot
+////
+////  Created by McCay Barnes on 8/4/15.
+////  Copyright (c) 2015 McCay Barnes. All rights reserved.
+////
 //
-//  MapDisplayViewController.h
-//  BlocSpot
+//#import <UIKit/UIKit.h>
 //
-//  Created by McCay Barnes on 8/4/15.
-//  Copyright (c) 2015 McCay Barnes. All rights reserved.
+//@interface MapDisplayViewController : UIViewController
 //
-
-#import <UIKit/UIKit.h>
-
-@interface MapDisplayViewController : UIViewController
-
-@end
+//@end

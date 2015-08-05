@@ -1,13 +1,13 @@
+////
+////  SearchViewController.h
+////  BlocSpot
+////
+////  Created by McCay Barnes on 8/4/15.
+////  Copyright (c) 2015 McCay Barnes. All rights reserved.
+////
 //
-//  SearchViewController.h
-//  BlocSpot
+//#import <UIKit/UIKit.h>
 //
-//  Created by McCay Barnes on 8/4/15.
-//  Copyright (c) 2015 McCay Barnes. All rights reserved.
+//@interface SearchViewController : UIViewController
 //
-
-#import <UIKit/UIKit.h>
-
-@interface SearchViewController : UIViewController
-
-@end
+//@end
