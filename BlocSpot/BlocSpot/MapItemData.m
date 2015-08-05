@@ -11,12 +11,12 @@
 @implementation MapItemData
 
 
--(void) returnMapItems:(void (^)(NSArray *mapItems))successBlock {
+-(void) returnMapItems:(void (^)(NSArray *mapItems, NSString *text))successBlock {
     
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     self.mapView.delegate = self;
     // Change from hardcode to user input
-    request.naturalLanguageQuery = @"restaurants";
+    request.naturalLanguageQuery = self.text;
     //Region should be set by userLocation or search area on map
     request.region = self.mapView.region;
     
@@ -25,7 +25,7 @@
         self.mapItems = response.mapItems;
         
         if (successBlock) {
-            successBlock(self.mapItems);
+            successBlock(self.mapItems, self.text);
         }
     }];
     

@@ -34,7 +34,7 @@
     NSMutableArray *annotationArray = [[NSMutableArray alloc]init];
     
     MapItemData *runMapRequest = [[MapItemData alloc] init];
-    [runMapRequest returnMapItems:^(NSArray *mapItems) {
+    [runMapRequest returnMapItems:^(NSArray *mapItems, NSString *text) {
         //Add annotations here
         for (MKMapItem *item in mapItems) {
             CustomAnnotation *annotation = [[CustomAnnotation alloc] initWithTitle:item.placemark.title Location:item.placemark.coordinate];
@@ -42,7 +42,6 @@
         }
     }];
     [self.mapView addAnnotations:annotationArray];
-    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations

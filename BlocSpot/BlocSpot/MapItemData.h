@@ -13,7 +13,8 @@
 
 @property (strong, nonatomic) NSArray *mapItems;
 @property (weak, nonatomic) MKMapView *mapView;
+@property (strong, nonatomic) NSString *text;
 
--(void) returnMapItems:(void (^)(NSArray *mapItems))successBlock;
+-(void) returnMapItems:(void (^)(NSArray *mapItems, NSString *text))successBlock;
 
 @end
