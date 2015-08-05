@@ -34,6 +34,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="kIC-zs-KOB" id="gpT-NH-Mjh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v1b-v0-mtp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -62,6 +65,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="searchBar" destination="YBG-dx-3cg" id="RDQ-vi-bGi"/>
                         <outlet property="searchDisplayController" destination="5Wz-M0-1x3" id="1bo-71-WOn"/>
                     </connections>
                 </viewController>
