@@ -20,6 +20,7 @@
 		C511A6531B71C1E3005EB31E /* MapItemData.m in Sources */ = {isa = PBXBuildFile; fileRef = C511A6521B71C1E3005EB31E /* MapItemData.m */; };
 		C511A6561B71C219005EB31E /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C511A6551B71C219005EB31E /* CustomAnnotation.m */; };
 		C511A6581B729769005EB31E /* pin.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C511A6571B729769005EB31E /* pin.jpg */; };
+		C511A65B1B74535F005EB31E /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C511A65A1B74535F005EB31E /* LocationManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		C511A6541B71C219005EB31E /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
 		C511A6551B71C219005EB31E /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
 		C511A6571B729769005EB31E /* pin.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pin.jpg; sourceTree = "<group>"; };
+		C511A6591B74535F005EB31E /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		C511A65A1B74535F005EB31E /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +107,8 @@
 				C511A6491B71C0FA005EB31E /* MapDisplayViewController.m */,
 				C511A64B1B71C102005EB31E /* ListViewController.h */,
 				C511A64C1B71C102005EB31E /* ListViewController.m */,
+				C511A6591B74535F005EB31E /* LocationManager.h */,
+				C511A65A1B74535F005EB31E /* LocationManager.m */,
 				C511A64E1B71C10A005EB31E /* SearchViewController.h */,
 				C511A64F1B71C10A005EB31E /* SearchViewController.m */,
 				C511A6511B71C1E3005EB31E /* MapItemData.h */,
@@ -249,6 +254,7 @@
 				C511A64D1B71C102005EB31E /* ListViewController.m in Sources */,
 				C511A64A1B71C0FA005EB31E /* MapDisplayViewController.m in Sources */,
 				C511A6281B71C01C005EB31E /* BlocSpot.xcdatamodeld in Sources */,
+				C511A65B1B74535F005EB31E /* LocationManager.m in Sources */,
 				C511A6561B71C219005EB31E /* CustomAnnotation.m in Sources */,
 				C511A6251B71C01C005EB31E /* AppDelegate.m in Sources */,
 				C511A6501B71C10A005EB31E /* SearchViewController.m in Sources */,

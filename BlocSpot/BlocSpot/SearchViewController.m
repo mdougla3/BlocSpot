@@ -41,16 +41,11 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
     self.data = [[MapItemData alloc] init];
-    [self.data returnMapItems:^(NSArray *mapItems, NSString *text) {
-        for (MKMapItem *item in mapItems) {
-            NSMutableArray *mapItems = [NSMutableArray new];
-            [mapItems addObject:item];
-            text = searchText;
-            self.searchMapItems = mapItems;
-        }
-    }];
-    
-    [self.searchTableView reloadData];
+//    [self.data returnMapItems:^(NSArray *mapItems) {
+//        <#code#>
+//    } withString:searchBar.text withRegion:<#(MKCoordinateRegion)#>]
+//    
+//    [self.searchTableView reloadData];
 }
 
 @end

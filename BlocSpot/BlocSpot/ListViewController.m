@@ -23,12 +23,12 @@
     [super viewDidLoad];
 
     self.data = [[MapItemData alloc] init];
-    [self.data returnMapItems:^(NSArray *mapItems, NSString *text) {
-        for (MKMapItem *item in mapItems) {
-            [self.returnMapItems addObject:item];
-        }
-        [self.listTableView reloadData];
-    }];
+//    [self.data returnMapItems:^(NSArray *mapItems, NSString *text) {
+//        for (MKMapItem *item in mapItems) {
+//            [self.returnMapItems addObject:item];
+//        }
+//        [self.listTableView reloadData];
+//    }];
 
 }
 
@@ -39,9 +39,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    
-    cell.textLabel.text = self.returnMapItems[0];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listCell"];
+    MKMapItem *item = self.returnMapItems[indexPath.row];
+    cell.textLabel.text = item.name;
     
     return cell;
 }

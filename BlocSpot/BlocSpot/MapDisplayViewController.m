@@ -7,15 +7,16 @@
 //
 
 #import "MapDisplayViewController.h"
-#import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "MapItemData.h"
 #import "CustomAnnotation.h"
+#import "LocationManager.h"
 
 @interface MapDisplayViewController () <CLLocationManagerDelegate>
 
-@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) NSString *searchTerm;
+@property (assign) BOOL isRegionSet;
 
 @end
 
@@ -24,31 +25,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    [self.locationManager requestWhenInUseAuthorization];
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.searchTerm = @"Restaurants";
+    [[LocationManager sharedLocationManager] runLocationManager];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     
-    [self.locationManager startUpdatingLocation];
+    if (self.isRegionSet) {
+        return;
+    }
+    self.isRegionSet = YES;
+    
+    CLLocationCoordinate2D initialLocation = [locations[0] coordinate];
+    MKCoordinateRegion initialRegion = MKCoordinateRegionMakeWithDistance(initialLocation, 8, 8);
+    [self.mapView setRegion:initialRegion];
     
     NSMutableArray *annotationArray = [[NSMutableArray alloc]init];
     
     MapItemData *runMapRequest = [[MapItemData alloc] init];
-    [runMapRequest returnMapItems:^(NSArray *mapItems, NSString *text) {
+    [runMapRequest returnMapItems:^(NSArray *mapItems) {
         //Add annotations here
         for (MKMapItem *item in mapItems) {
             CustomAnnotation *annotation = [[CustomAnnotation alloc] initWithTitle:item.placemark.title Location:item.placemark.coordinate];
             [annotationArray addObject:annotation];
         }
-    }];
-    [self.mapView addAnnotations:annotationArray];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
-    CLLocationCoordinate2D initialLocation = [locations[0] coordinate];
-    MKCoordinateRegion initialRegion = MKCoordinateRegionMakeWithDistance(initialLocation, 8, 8);
-    [self.mapView setRegion:initialRegion];
+        [self.mapView addAnnotations:annotationArray];
+        
+    }  withString: self.searchTerm withRegion:self.mapView.region];
     
 }
 

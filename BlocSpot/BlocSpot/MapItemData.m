@@ -11,21 +11,18 @@
 @implementation MapItemData
 
 
--(void) returnMapItems:(void (^)(NSArray *mapItems, NSString *text))successBlock {
+-(void) returnMapItems:(void (^)(NSArray *mapItems))successBlock withString:(NSString *)text withRegion:(MKCoordinateRegion)region {
     
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
-    self.mapView.delegate = self;
-    // Change from hardcode to user input
-    request.naturalLanguageQuery = self.text;
+    request.naturalLanguageQuery = text;
     //Region should be set by userLocation or search area on map
-    request.region = self.mapView.region;
+    request.region = region;
     
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
     [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
-        self.mapItems = response.mapItems;
         
         if (successBlock) {
-            successBlock(self.mapItems, self.text);
+            successBlock(response.mapItems);
         }
     }];
     
