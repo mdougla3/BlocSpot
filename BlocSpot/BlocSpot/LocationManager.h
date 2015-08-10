@@ -9,10 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+@class LocationManager;
+
+@protocol LocationManagerDelegate <NSObject>
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations;
+
+@end
 
 @interface LocationManager : NSObject <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (nonatomic, weak) id <LocationManagerDelegate> delegate;
 
 +(instancetype) sharedLocationManager; 
 -(void) runLocationManager;

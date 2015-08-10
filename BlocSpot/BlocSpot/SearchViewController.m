@@ -40,12 +40,6 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
-    self.data = [[MapItemData alloc] init];
-//    [self.data returnMapItems:^(NSArray *mapItems) {
-//        <#code#>
-//    } withString:searchBar.text withRegion:<#(MKCoordinateRegion)#>]
-//    
-//    [self.searchTableView reloadData];
 }
 
 @end

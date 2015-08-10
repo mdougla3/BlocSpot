@@ -8,11 +8,13 @@
 
 #import "ListViewController.h"
 #import "MapItemData.h"
+#import "LocationManager.h"
 
-@interface ListViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ListViewController () <UITableViewDelegate, UITableViewDataSource, LocationManagerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *returnMapItems;
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *listSearchBar;
 @property MapItemData *data;
 
 @end
@@ -21,14 +23,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
 
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    
+    CLLocationCoordinate2D initialLocation = [locations[0] coordinate];
+    MKCoordinateRegion initialRegion = MKCoordinateRegionMakeWithDistance(initialLocation, 8, 8);
+    
     self.data = [[MapItemData alloc] init];
-//    [self.data returnMapItems:^(NSArray *mapItems, NSString *text) {
-//        for (MKMapItem *item in mapItems) {
-//            [self.returnMapItems addObject:item];
-//        }
-//        [self.listTableView reloadData];
-//    }];
+    [self.data returnMapItems:^(NSArray *mapItems) {
+        
+    } withString:self.listSearchBar.text withRegion:initialRegion];
 
 }
 

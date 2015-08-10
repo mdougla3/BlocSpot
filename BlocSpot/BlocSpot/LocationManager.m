@@ -30,4 +30,10 @@
     [self.locationManager startUpdatingLocation];
     
 }
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    [self.delegate locationManager:[LocationManager sharedLocationManager].locationManager didUpdateLocations:locations];
+}
+
+
 @end

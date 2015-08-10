@@ -12,11 +12,12 @@
 #import "CustomAnnotation.h"
 #import "LocationManager.h"
 
-@interface MapDisplayViewController () <CLLocationManagerDelegate>
+@interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) NSString *searchTerm;
 @property (assign) BOOL isRegionSet;
+@property (weak, nonatomic) IBOutlet UISearchBar *mapSearchBar;
 
 @end
 
@@ -25,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.searchTerm = @"Restaurants";
+    self.searchTerm = self.mapSearchBar.text;
     [[LocationManager sharedLocationManager] runLocationManager];
 }
 
