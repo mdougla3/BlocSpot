@@ -21,6 +21,7 @@
 @property (strong, nonatomic) MapItemData *data;
 @property (strong, nonatomic) NSMutableArray *annotationArray;
 @property (strong, nonatomic) UITableView *tableView;
+@property (nonatomic) MKCoordinateRegion searchRegion;
 
 @end
 
@@ -62,8 +63,7 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    CLLocationCoordinate2D initialLocation = [[LocationManager sharedLocationManager].lastLocation coordinate];
-    MKCoordinateRegion initialRegion = MKCoordinateRegionMakeWithDistance(initialLocation, 16, 16);
+    
     
     self.data = [[MapItemData alloc] init];
     [self.data returnMapItems:^(NSArray *mapItems) {
@@ -71,9 +71,13 @@
             
             CustomAnnotation *annotation = [[CustomAnnotation alloc] initWithTitle:item.placemark.title Location:item.placemark.coordinate];
             [self.annotationArray addObject:annotation];
+            
+            CLLocationCoordinate2D searchLocation = item.placemark.coordinate;
+            self.searchRegion = MKCoordinateRegionMakeWithDistance(searchLocation, 5, 5);
         }
-    } withString:self.mapSearchBar.text withRegion:initialRegion];
-    [self.mapView setRegion:initialRegion];
+    } withString:self.mapSearchBar.text withRegion:self.searchRegion];
+    self.tableView.hidden = YES;
+    [self.mapView setRegion:self.searchRegion];
 }
 
 
@@ -83,6 +87,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    MKMapItem *item = self.annotationArray[indexPath.row];
+    cell.textLabel.text = item.name;
+    
     return cell;
 }
 

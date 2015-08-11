@@ -42,6 +42,12 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+
+
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
     CLLocationCoordinate2D initialLocation = [[LocationManager sharedLocationManager].lastLocation coordinate];
@@ -55,6 +61,8 @@
     } withString:self.listSearchBar.text withRegion:initialRegion];
 }
 
-
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    self.listTableView.hidden = YES;
+}
 
 @end
