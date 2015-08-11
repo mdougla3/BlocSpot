@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "POI.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObject *POI = [NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:context];
+    POI.name = @"testName";
+    
     return YES;
 }
 
