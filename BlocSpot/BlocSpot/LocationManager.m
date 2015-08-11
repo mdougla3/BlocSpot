@@ -32,6 +32,7 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    self.lastLocation = locations[0];
     [self.delegate locationManager:[LocationManager sharedLocationManager].locationManager didUpdateLocations:locations];
 }
 

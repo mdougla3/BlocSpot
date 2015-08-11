@@ -13,7 +13,7 @@
 
 @protocol LocationManagerDelegate <NSObject>
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations;
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations;
 
 @end
 
@@ -21,6 +21,7 @@
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (nonatomic, weak) id <LocationManagerDelegate> delegate;
+@property (strong, nonatomic) CLLocation *lastLocation;
 
 +(instancetype) sharedLocationManager; 
 -(void) runLocationManager;
