@@ -74,10 +74,13 @@
             
             CLLocationCoordinate2D searchLocation = item.placemark.coordinate;
             self.searchRegion = MKCoordinateRegionMakeWithDistance(searchLocation, 5, 5);
+            
+            self.tableView.hidden = YES;
+            [self.mapView setRegion:self.searchRegion];
+            [self.mapView addAnnotations:self.annotationArray];
         }
     } withString:self.mapSearchBar.text withRegion:self.searchRegion];
-    self.tableView.hidden = YES;
-    [self.mapView setRegion:self.searchRegion];
+    
 }
 
 

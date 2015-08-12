@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *listTableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *listSearchBar;
 @property MapItemData *data;
+@property (nonatomic) MKCoordinateRegion listSearchRegion;
+
 
 @end
 
@@ -50,15 +52,17 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
-    CLLocationCoordinate2D initialLocation = [[LocationManager sharedLocationManager].lastLocation coordinate];
-    MKCoordinateRegion initialRegion = MKCoordinateRegionMakeWithDistance(initialLocation, 16, 16);
-    
     self.data = [[MapItemData alloc] init];
     [self.data returnMapItems:^(NSArray *mapItems) {
         self.returnMapItems = mapItems;
+        MKMapItem *item = mapItems[0];
+        
+        CLLocationCoordinate2D searchLocation = item.placemark.coordinate;
+        self.listSearchRegion = MKCoordinateRegionMakeWithDistance(searchLocation, 20, 20);
+
         [self.listTableView reloadData];
         
-    } withString:self.listSearchBar.text withRegion:initialRegion];
+    } withString:self.listSearchBar.text withRegion:self.listSearchRegion];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{

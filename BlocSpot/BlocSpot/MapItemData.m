@@ -16,7 +16,7 @@
     MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
     request.naturalLanguageQuery = text;
     //Region should be set by userLocation or search area on map
-    //request.region = region;
+    request.region = region;
     
     MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
     [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
