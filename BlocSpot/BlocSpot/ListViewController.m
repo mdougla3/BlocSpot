@@ -9,6 +9,7 @@
 #import "ListViewController.h"
 #import "MapItemData.h"
 #import "LocationManager.h"
+#import "ListDetailViewController.h"
 
 @interface ListViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchDisplayDelegate>
 
@@ -35,17 +36,22 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listCell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
     }
     
     MKMapItem *item = self.returnMapItems[indexPath.row];
     cell.textLabel.text = item.name;
+    //cell.detailTextLabel.text =[NSString stringWithFormat:(@"%@", item.placemark.location)];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.modalPresentationStyle = UIModalPresentationCustom;
     
+    // Create a second viewcontroller with the information
+    ListDetailViewController *detailVC = [[ListDetailViewController alloc] init];
+    [self presentViewController:detailVC animated:YES completion:nil];
 }
 
 

@@ -49,6 +49,7 @@
                     <connections>
                         <outlet property="mapSearchBar" destination="Oe3-wn-UGl" id="8Di-3M-geK"/>
                         <outlet property="mapView" destination="kIC-zs-KOB" id="gpT-NH-Mjh"/>
+                        <outlet property="searchController" destination="Q4h-AQ-rGc" id="fiL-l5-hcN"/>
                         <outlet property="searchDisplayController" destination="Q4h-AQ-rGc" id="Vho-1W-6Qi"/>
                     </connections>
                 </viewController>
@@ -64,6 +65,26 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1201" y="356"/>
+        </scene>
+        <!--List Detail View Controller-->
+        <scene sceneID="KVa-pq-nOx">
+            <objects>
+                <viewController id="Vdi-Di-f6s" customClass="ListDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vVn-RU-MPq"/>
+                        <viewControllerLayoutGuide type="bottom" id="hXu-VU-BAe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0DB-El-xo8">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vWb-Zl-K8X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2546" y="688"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="aGJ-gT-Z2u">
@@ -131,7 +152,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="17" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ivg-Gc-MWX">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ivg-Gc-MWX">
                                 <rect key="frame" x="0.0" y="107" width="600" height="493"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>

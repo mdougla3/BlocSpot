@@ -21,6 +21,10 @@
 		C511A6561B71C219005EB31E /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C511A6551B71C219005EB31E /* CustomAnnotation.m */; };
 		C511A6581B729769005EB31E /* pin.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C511A6571B729769005EB31E /* pin.jpg */; };
 		C511A65B1B74535F005EB31E /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C511A65A1B74535F005EB31E /* LocationManager.m */; };
+		C551EE961B7BA3CD00610EBC /* ListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C551EE951B7BA3CD00610EBC /* ListDetailViewController.m */; };
+		C551EE991B7C2FA900610EBC /* ListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C551EE981B7C2FA900610EBC /* ListTableViewCell.m */; };
+		C551EEB41B7D9E7800610EBC /* POICategory.m in Sources */ = {isa = PBXBuildFile; fileRef = C551EEB31B7D9E7800610EBC /* POICategory.m */; };
+		C551EEB71B7D9E7900610EBC /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = C551EEB61B7D9E7900610EBC /* POI.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +63,14 @@
 		C511A6571B729769005EB31E /* pin.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pin.jpg; sourceTree = "<group>"; };
 		C511A6591B74535F005EB31E /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		C511A65A1B74535F005EB31E /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		C551EE941B7BA3CD00610EBC /* ListDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListDetailViewController.h; sourceTree = "<group>"; };
+		C551EE951B7BA3CD00610EBC /* ListDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListDetailViewController.m; sourceTree = "<group>"; };
+		C551EE971B7C2FA900610EBC /* ListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTableViewCell.h; sourceTree = "<group>"; };
+		C551EE981B7C2FA900610EBC /* ListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTableViewCell.m; sourceTree = "<group>"; };
+		C551EEB21B7D9E7800610EBC /* POICategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POICategory.h; path = ../POICategory.h; sourceTree = "<group>"; };
+		C551EEB31B7D9E7800610EBC /* POICategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POICategory.m; path = ../POICategory.m; sourceTree = "<group>"; };
+		C551EEB51B7D9E7900610EBC /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POI.h; path = ../POI.h; sourceTree = "<group>"; };
+		C551EEB61B7D9E7900610EBC /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POI.m; path = ../POI.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,8 +119,12 @@
 				C511A6491B71C0FA005EB31E /* MapDisplayViewController.m */,
 				C511A64B1B71C102005EB31E /* ListViewController.h */,
 				C511A64C1B71C102005EB31E /* ListViewController.m */,
+				C551EE971B7C2FA900610EBC /* ListTableViewCell.h */,
+				C551EE981B7C2FA900610EBC /* ListTableViewCell.m */,
 				C511A64E1B71C10A005EB31E /* SearchViewController.h */,
 				C511A64F1B71C10A005EB31E /* SearchViewController.m */,
+				C551EE941B7BA3CD00610EBC /* ListDetailViewController.h */,
+				C551EE951B7BA3CD00610EBC /* ListDetailViewController.m */,
 				C511A6511B71C1E3005EB31E /* MapItemData.h */,
 				C511A6521B71C1E3005EB31E /* MapItemData.m */,
 				C511A6541B71C219005EB31E /* CustomAnnotation.h */,
@@ -118,6 +134,10 @@
 				C511A62F1B71C01C005EB31E /* Images.xcassets */,
 				C511A6311B71C01C005EB31E /* LaunchScreen.xib */,
 				C511A6261B71C01C005EB31E /* BlocSpot.xcdatamodeld */,
+				C551EEB51B7D9E7900610EBC /* POI.h */,
+				C551EEB61B7D9E7900610EBC /* POI.m */,
+				C551EEB21B7D9E7800610EBC /* POICategory.h */,
+				C551EEB31B7D9E7800610EBC /* POICategory.m */,
 				C511A61F1B71C01C005EB31E /* Supporting Files */,
 			);
 			path = BlocSpot;
@@ -253,13 +273,17 @@
 			files = (
 				C511A64D1B71C102005EB31E /* ListViewController.m in Sources */,
 				C511A64A1B71C0FA005EB31E /* MapDisplayViewController.m in Sources */,
+				C551EEB41B7D9E7800610EBC /* POICategory.m in Sources */,
 				C511A6281B71C01C005EB31E /* BlocSpot.xcdatamodeld in Sources */,
+				C551EEB71B7D9E7900610EBC /* POI.m in Sources */,
 				C511A65B1B74535F005EB31E /* LocationManager.m in Sources */,
 				C511A6561B71C219005EB31E /* CustomAnnotation.m in Sources */,
 				C511A6251B71C01C005EB31E /* AppDelegate.m in Sources */,
 				C511A6501B71C10A005EB31E /* SearchViewController.m in Sources */,
 				C511A6531B71C1E3005EB31E /* MapItemData.m in Sources */,
+				C551EE991B7C2FA900610EBC /* ListTableViewCell.m in Sources */,
 				C511A6221B71C01C005EB31E /* main.m in Sources */,
+				C551EE961B7BA3CD00610EBC /* ListDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +478,7 @@
 				C511A6441B71C01C005EB31E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C511A6451B71C01C005EB31E /* Build configuration list for PBXNativeTarget "BlocSpotTests" */ = {
 			isa = XCConfigurationList;
@@ -462,6 +487,7 @@
 				C511A6471B71C01C005EB31E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
