@@ -8,12 +8,13 @@
 
 #import "SearchViewController.h"
 #import "MapItemData.h"
+#import "ListViewController.h"
 
 @interface SearchViewController () <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *searchTableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) MapItemData *data;
+@property (strong, nonatomic) ListViewController *listViewController;
 @property (strong, nonatomic) NSMutableArray *searchMapItems;
 
 @end
@@ -27,7 +28,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
  
-    return self.searchMapItems.count;
+    ListViewController *vc = [[ListViewController alloc] init];
+    return vc.savedMapItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

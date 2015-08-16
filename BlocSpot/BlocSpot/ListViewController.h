@@ -10,4 +10,6 @@
 
 @interface ListViewController : UIViewController
 
+@property (strong, nonatomic) NSArray *savedMapItems;
+
 @end

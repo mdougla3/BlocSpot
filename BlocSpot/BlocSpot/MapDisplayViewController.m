@@ -11,8 +11,9 @@
 #import "MapItemData.h"
 #import "CustomAnnotation.h"
 #import "LocationManager.h"
+#import "POI.h"
 
-@interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate>
+@interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) NSString *searchTerm;
@@ -21,8 +22,9 @@
 @property (strong, nonatomic) MapItemData *data;
 @property (strong, nonatomic) NSMutableArray *annotationArray;
 @property (nonatomic) MKCoordinateRegion searchRegion;
-@property (strong, nonatomic) UILongPressGestureRecognizer *longPressGestureRecognizer;
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
+@property (strong, nonatomic) NSArray *savedMapItems;
+
 
 
 @end
@@ -36,10 +38,7 @@
     [[LocationManager sharedLocationManager] runLocationManager];
     [LocationManager sharedLocationManager].delegate = self;
     self.mapSearchBar.delegate = self;
-    
-    self.longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
-    self.longPressGestureRecognizer.delegate = self;
-    [self.view addGestureRecognizer:self.longPressGestureRecognizer];
+    self.mapView.delegate = self;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -124,10 +123,34 @@
     
 }
 
+- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation{
+    MKPinAnnotationView *selectedAnnotation = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myPin"];
+    selectedAnnotation.pinColor = MKPinAnnotationColorGreen;
+    selectedAnnotation.canShowCallout = YES;
+    
+    return selectedAnnotation;
+}
 
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    POI *mapPOI = [self poiWithName:self.mapView.annotations[0]];
+    self.savedMapItems = @[mapPOI];
+}
 
--(void) longPressFired:(UILongPressGestureRecognizer *)sender {
-    NSLog(@"Long Press");
+-(POI *)poiWithName:(NSString *)name {
+    
+    id delegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    POI *poi = [NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:context];
+    poi.name = name;
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        // there is an error
+        NSLog(@"%@", error);
+    }
+    
+    return poi;
 }
 
 @end

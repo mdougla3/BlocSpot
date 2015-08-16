@@ -14,7 +14,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     
-    //POI *newPOI = [[POI alloc] initWithEntity:POI insertIntoManagedObjectContext:context];
+    //POI *newPOI = [[POI alloc] initWithEntity:@"POI" insertIntoManagedObjectContext:context];
     
     self.placeName = [UILabel new];
     //self.placeName.text = POI.name;
