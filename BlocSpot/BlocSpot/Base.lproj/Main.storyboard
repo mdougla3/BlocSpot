@@ -40,15 +40,11 @@
                                 <segue destination="hfw-XS-Rih" kind="show" id="lwD-Hq-XPL"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Saved Searches" id="LR6-Et-qBI">
-                            <connections>
-                                <segue destination="L80-zj-LuD" kind="show" id="oYq-MB-9WD"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mapSearchBar" destination="Oe3-wn-UGl" id="8Di-3M-geK"/>
                         <outlet property="mapView" destination="kIC-zs-KOB" id="gpT-NH-Mjh"/>
+                        <outlet property="searchController" destination="Q4h-AQ-rGc" id="fiL-l5-hcN"/>
                         <outlet property="searchDisplayController" destination="Q4h-AQ-rGc" id="Vho-1W-6Qi"/>
                     </connections>
                 </viewController>
@@ -65,59 +61,25 @@
             </objects>
             <point key="canvasLocation" x="1201" y="356"/>
         </scene>
-        <!--Search View Controller-->
-        <scene sceneID="aGJ-gT-Z2u">
+        <!--List Detail View Controller-->
+        <scene sceneID="KVa-pq-nOx">
             <objects>
-                <viewController id="L80-zj-LuD" customClass="SearchViewController" sceneMemberID="viewController">
+                <viewController id="Vdi-Di-f6s" customClass="ListDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="pNh-ht-9UL"/>
-                        <viewControllerLayoutGuide type="bottom" id="p9t-aF-SW3"/>
+                        <viewControllerLayoutGuide type="top" id="vVn-RU-MPq"/>
+                        <viewControllerLayoutGuide type="bottom" id="hXu-VU-BAe"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Hgl-q8-Lo8">
+                    <view key="view" contentMode="scaleToFill" id="0DB-El-xo8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="YBG-dx-3cg">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="L80-zj-LuD" id="zIn-pB-nYU"/>
-                                </connections>
-                            </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FBh-C4-E0I">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="L80-zj-LuD" id="zqf-aX-M3G"/>
-                                    <outlet property="delegate" destination="L80-zj-LuD" id="cDF-jH-YEb"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="YBG-dx-3cg" secondAttribute="width" id="bo4-X7-ejq"/>
-                            <constraint firstAttribute="centerX" secondItem="YBG-dx-3cg" secondAttribute="centerX" id="mAq-vg-m1D"/>
-                            <constraint firstItem="YBG-dx-3cg" firstAttribute="top" secondItem="pNh-ht-9UL" secondAttribute="bottom" id="wBq-DQ-SJm"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="searchBar" destination="YBG-dx-3cg" id="RDQ-vi-bGi"/>
-                        <outlet property="searchDisplayController" destination="5Wz-M0-1x3" id="1bo-71-WOn"/>
-                        <outlet property="searchTableView" destination="FBh-C4-E0I" id="C5P-ez-okt"/>
-                    </connections>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XWK-l5-Y8O" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="5Wz-M0-1x3">
-                    <connections>
-                        <outlet property="delegate" destination="L80-zj-LuD" id="dFl-WL-5IO"/>
-                        <outlet property="searchBar" destination="YBG-dx-3cg" id="RYP-rC-lNH"/>
-                        <outlet property="searchContentsController" destination="L80-zj-LuD" id="6G1-26-CV9"/>
-                        <outlet property="searchResultsDataSource" destination="L80-zj-LuD" id="YZW-Wc-os4"/>
-                        <outlet property="searchResultsDelegate" destination="L80-zj-LuD" id="3Qu-QZ-hf4"/>
-                    </connections>
-                </searchDisplayController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vWb-Zl-K8X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1880" y="-82"/>
+            <point key="canvasLocation" x="2606" y="356"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="5Dh-PQ-4un">
@@ -131,7 +93,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="17" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ivg-Gc-MWX">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ivg-Gc-MWX">
                                 <rect key="frame" x="0.0" y="107" width="600" height="493"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -141,6 +103,9 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qRX-K5-52B" id="tFa-WD-rSR">
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Vdi-Di-f6s" kind="presentation" id="lkv-sX-d2N"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -180,7 +145,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1880" y="688"/>
+            <point key="canvasLocation" x="1906" y="356"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Krw-mN-hDA">
