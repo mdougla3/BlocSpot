@@ -12,8 +12,11 @@
 #import "CustomAnnotation.h"
 #import "LocationManager.h"
 #import "POI.h"
+#import "CategoryView.h"
+#import "ColoredCategory.h"
+#import "POICategory.h"
 
-@interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate>
+@interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) NSString *searchTerm;
@@ -24,8 +27,13 @@
 @property (nonatomic) MKCoordinateRegion searchRegion;
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
 @property (strong, nonatomic) NSArray *savedMapItems;
-
-
+@property (weak, nonatomic) IBOutlet CategoryView *categoryView;
+@property (strong, nonatomic) UIVisualEffectView *blurEffectView;
+@property (strong, nonatomic) ColoredCategory *category;
+@property (weak, nonatomic) IBOutlet UITableView *categoryTableView;
+@property (strong, nonatomic) UIButton *addCategoryButton;
+@property (strong, nonatomic) NSArray *savedSearchResults;
+@property (assign, nonatomic) NSInteger selectedIndex;
 
 @end
 
@@ -39,6 +47,14 @@
     [LocationManager sharedLocationManager].delegate = self;
     self.mapSearchBar.delegate = self;
     self.mapView.delegate = self;
+    self.mapView.showsUserLocation = YES;
+    self.categoryTableView.hidden = YES;
+    self.category = [[ColoredCategory alloc] init];
+    
+    self.categoryView.alpha = 0.0;
+    self.categoryView.layer.cornerRadius = 15;
+    self.categoryView.clipsToBounds = YES;
+    self.isRegionSet = NO;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -62,6 +78,7 @@
             [self.annotationArray addObject:annotation];
         }
         [self.mapView addAnnotations:self.annotationArray];
+        self.savedSearchResults = mapItems;
         
     }  withString: self.searchTerm withRegion:self.mapView.region];
     
@@ -81,9 +98,11 @@
             CLLocationCoordinate2D searchLocation = item.placemark.coordinate;
             self.searchRegion = MKCoordinateRegionMakeWithDistance(searchLocation, 5, 5);
             
-            [self.mapView setRegion:self.searchRegion];
-            [self.mapView addAnnotations:self.annotationArray];
         }
+        [self.mapView setRegion:self.searchRegion];
+        [self.mapView addAnnotations:self.annotationArray];
+
+        self.savedSearchResults = mapItems;
         [[self.searchController searchResultsTableView] reloadData];
     } withString:searchText withRegion:self.searchRegion];
     
@@ -91,12 +110,21 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView == self.categoryTableView) {
+        return self.category.categoryNames.count;
+    }
     return self.annotationArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
+        cell.textLabel.text = [self.category.categoryNames objectAtIndex:indexPath.row];
+        return cell;
+    }
+    else {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
@@ -106,24 +134,45 @@
     cell.textLabel.text = annotation.title;
     
     return cell;
+    }
+}
+
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    if (tableView == self.categoryTableView) {
+        cell.backgroundColor = [self.category.categoryColors objectAtIndex:indexPath.row];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    
+    // NSRangeException', reason: '*** -[__NSArrayM objectAtIndex:]: index 3 beyond bounds [0 .. 0]' when clicking past 1st cell
+    
+    if (tableView == self.categoryTableView) {
+        // Add in Save to CoreData for POI category name
+        self.categoryTableView.hidden = YES;
+        [self.blurEffectView removeFromSuperview];
+        [self.addCategoryButton removeFromSuperview];
+    }
     
     CustomAnnotation *annotation = self.annotationArray[indexPath.row];
     CLLocationCoordinate2D searchLocation = annotation.coordinate;
     self.searchRegion = MKCoordinateRegionMakeWithDistance(searchLocation, 5, 5);
     
     [self.mapView setRegion:self.searchRegion];
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    self.annotationArray = [@[annotation] mutableCopy];
     [self.mapView addAnnotation:annotation];
+    self.selectedIndex = indexPath.row;
     [self.searchController setActive:NO animated:YES];
 }
 
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
-    
-}
-
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation{
+    
+    if([annotation isKindOfClass: [MKUserLocation class]])
+        return nil;
+    
     MKPinAnnotationView *selectedAnnotation = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myPin"];
     selectedAnnotation.pinColor = MKPinAnnotationColorGreen;
     selectedAnnotation.canShowCallout = YES;
@@ -132,17 +181,33 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-    POI *mapPOI = [self poiWithName:self.mapView.annotations[0]];
-    self.savedMapItems = @[mapPOI];
+    
+    MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+    self.savedMapItems = @[item];
+    
+    [self createBlurEffect];
+    
+    [UIView animateWithDuration:0.4 animations:^{
+        
+        // Add in mapData info to this view
+        
+        self.categoryView.alpha = 1.0;
+        self.categoryView.poiTextView.text = @"Poison berries are poison";
+        self.categoryView.locationLabel.text = item.phoneNumber;
+        self.categoryView.titleLabel.text = item.name;
+        
+    }];
 }
 
--(POI *)poiWithName:(NSString *)name {
+-(POI *)poiWithMapItem:(MKMapItem *)item {
     
     id delegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
     
     POI *poi = [NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:context];
-    poi.name = name;
+    
+    poi.name = item.name;
+    poi.address = item.phoneNumber;
     
     NSError *error = nil;
     if (![context save:&error]) {
@@ -151,6 +216,88 @@
     }
     
     return poi;
+}
+
+-(POICategory *)poiCategoryWithName:(NSString *)name {
+    
+    id delegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    POICategory *poiCategory = [NSEntityDescription insertNewObjectForEntityForName:@"POICategory" inManagedObjectContext:context];
+    poiCategory.name = name;
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        // there is an error
+        NSLog(@"%@", error);
+    }
+    
+    return poiCategory;
+}
+
+# pragma mark - UIView Buttons
+
+- (IBAction)cancelButton:(UIButton *)sender {
+    self.categoryView.alpha = 0.0;
+    [self.blurEffectView removeFromSuperview];
+}
+
+- (IBAction)visitedButton:(UIButton *)sender {
+    
+}
+
+- (IBAction)saveButton:(UIButton *)sender {
+    
+    self.categoryView.alpha = 0.0;
+    self.categoryTableView.hidden = NO;
+    [self.category createColors];
+    [self.categoryTableView reloadData];
+    
+    self.addCategoryButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    self.addCategoryButton.frame = CGRectMake(310, 115, 25, 25);
+    [self.addCategoryButton addTarget:self action:@selector(addCategoryButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.mapView addSubview:self.addCategoryButton];
+    
+    MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+    POI *mapPOI = [self poiWithMapItem:item];
+    
+    
+}
+
+-(void) createBlurEffect {
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [self.blurEffectView setFrame:self.view.bounds];
+    [self.mapView addSubview:self.blurEffectView];
+}
+
+-(void) addCategoryButtonPressed:(UIButton *)sender {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add a new Category"
+                                                    message:@"Please enter your new category name here"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Add"
+                                          otherButtonTitles:@"Cancel", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+    
+
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == [alertView cancelButtonIndex]){
+
+        NSString *addedCategoryName = [alertView textFieldAtIndex:0].text;
+        
+        [self.category.categoryNames addObject:addedCategoryName];
+        [self.categoryTableView reloadData];
+    
+    
+    }else{
+        [alertView dismissWithClickedButtonIndex:1 animated:YES];
+    }
 }
 
 @end

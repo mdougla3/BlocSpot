@@ -11,6 +11,9 @@
 #import "LocationManager.h"
 #import "ListDetailViewController.h"
 #import "POI.h"
+#import "ColoredCategory.h"
+#import "ListDetailView.h"
+#import "ColoredCategory.h"
 
 @interface ListViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchDisplayDelegate>
 
@@ -21,6 +24,12 @@
 @property (nonatomic) MKCoordinateRegion listSearchRegion;
 @property (nonatomic, retain) NSIndexPath *checkedIndexPath;
 @property (assign) BOOL wasSaved;
+@property ColoredCategory *category;
+@property (weak, nonatomic) IBOutlet ListDetailView *listDetailView;
+@property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
+@property (strong, nonatomic) UIVisualEffectView *blurEffectView;
+@property (weak, nonatomic) IBOutlet UITableView *categoryTableView;
+@property (strong, nonatomic) UIButton *addCategoryButton;
 
 
 @end
@@ -31,41 +40,53 @@
     [super viewDidLoad];
     self.listTableView.sectionHeaderHeight = 40;
     self.wasSaved = NO;
+    self.categoryTableView.hidden = YES;
+    self.category = [[ColoredCategory alloc] init];
+
+
+    self.listDetailView.alpha = 0.0;
+    self.listDetailView.layer.cornerRadius = 15;
+    self.listDetailView.clipsToBounds = YES;
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 0) {
+    if (tableView == self.categoryTableView) {
+        return self.category.categoryNames.count;
+    }
+    else if (section == 0) {
        return self.returnMapItems.count;
     }
     return self.savedMapItems.count;
 }
 
+- (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    if (tableView == self.categoryTableView) {
+        cell.backgroundColor = [self.category.categoryColors objectAtIndex:indexPath.row];
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (tableView == self.categoryTableView) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
+        cell.textLabel.text = [self.category.categoryNames objectAtIndex:indexPath.row];
+        return cell;
+    }
+    else {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listCell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
+        cell.textLabel.frame = CGRectMake(cell.textLabel.frame.origin.x, cell.textLabel.frame.origin.y, cell.textLabel.frame.size.width - 60, cell.textLabel.frame.size.height);
     }
     
     MKMapItem *item = self.returnMapItems[indexPath.row];
     cell.textLabel.text = item.name;
     
-    UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    saveButton.frame = CGRectMake(cell.bounds.origin.x + 280, cell.frame.origin.y + 10, 100, 30);
-    [saveButton setTitle:@"Save" forState:UIControlStateNormal];
-    [saveButton addTarget:self action:@selector(savePressed:) forControlEvents:UIControlEventTouchUpInside];
-    saveButton.backgroundColor= [UIColor clearColor];
-    [[saveButton layer] setBorderColor:[UIColor blueColor].CGColor];
-    [cell.contentView addSubview:saveButton];
-    
     return cell;
-}
-
--(void) savePressed:(UIButton *)sender {
-
-    self.wasSaved = YES;
-    POI *newPOI = [self poiWithName:sender.description];
-    self.savedMapItems = @[newPOI];
+    }
 }
 
 -(POI *)poiWithName:(NSString *)name {
@@ -87,22 +108,34 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    self.checkedIndexPath = indexPath;
-    
-    if (self.checkedIndexPath) {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:self.checkedIndexPath];
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
+
+    [self.searchController setActive:NO animated:YES];
+    [self createBlurEffect];
+    [UIView animateWithDuration:0.4 animations:^{
+        
+        // Add in mapData info to this view
+        
+        self.listDetailView.alpha = 1.0;
+        self.listDetailView.poiTextView.text = @"Poison berries are poison";
+        self.listDetailView.locationLabel.text = @"Location 0";
+        self.listDetailView.titleLabel.text = @"Harrah's Casino";
+        
+    }];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if (tableView == self.categoryTableView) {
+        return 1;
+    }
     return 2;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     NSString *sectionName;
-    if (section == 1) {
+    if (tableView == self.categoryTableView) {
+        sectionName = @"Pick A Category";
+    }
+    else if (section == 0) {
         sectionName = @"Current Search";
     }
     else {
@@ -124,6 +157,57 @@
         [self.listTableView reloadData];
         
     } withString:searchText withRegion:self.listSearchRegion];
+}
+
+- (IBAction)saveButton:(UIButton *)sender {
+    
+    self.listDetailView.alpha = 0.0;
+    self.categoryTableView.hidden = NO;
+    [self.category createColors];
+    [self.categoryTableView reloadData];
+    
+    self.addCategoryButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    self.addCategoryButton.frame = CGRectMake(275, 0, 25, 25);
+    [self.addCategoryButton addTarget:self action:@selector(addCategoryButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.categoryTableView addSubview:self.addCategoryButton];
+    
+}
+
+
+-(void) createBlurEffect {
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [self.blurEffectView setFrame:self.view.bounds];
+    [self.listTableView addSubview:self.blurEffectView];
+}
+
+-(void) addCategoryButtonPressed:(UIButton *)sender {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add a new Category"
+                                                    message:@"Please enter your new category name here"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Add"
+                                          otherButtonTitles:@"Cancel", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+    
+    
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == [alertView cancelButtonIndex]){
+        
+        NSString *addedCategoryName = [alertView textFieldAtIndex:0].text;
+        
+        [self.category.categoryNames addObject:addedCategoryName];
+        [self.categoryTableView reloadData];
+        
+        
+    }else{
+        [alertView dismissWithClickedButtonIndex:1 animated:YES];
+    }
 }
 
 @end
