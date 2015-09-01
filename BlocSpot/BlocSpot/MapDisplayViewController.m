@@ -110,7 +110,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (tableView == self.categoryTableView) {
+    if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
         return self.category.categoryNames.count;
     }
     return self.annotationArray.count;
@@ -120,7 +120,7 @@
     
     if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
-        cell.textLabel.text = [self.category.categoryNames objectAtIndex:indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", [self.category.categoryNames objectAtIndex:indexPath.row]];
         return cell;
     }
     else {
@@ -154,6 +154,10 @@
         self.categoryTableView.hidden = YES;
         [self.blurEffectView removeFromSuperview];
         [self.addCategoryButton removeFromSuperview];
+        
+        MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+        POI *mapPOI = [self poiWithMapItem:item];
+        mapPOI.category = [NSString stringWithFormat:@"%@", self.category.categoryNames[indexPath.row]];
     }
     
     CustomAnnotation *annotation = self.annotationArray[indexPath.row];
@@ -195,8 +199,8 @@
         self.categoryView.poiTextView.text = @"Poison berries are poison";
         self.categoryView.locationLabel.text = item.phoneNumber;
         self.categoryView.titleLabel.text = item.name;
-        
     }];
+    
 }
 
 -(POI *)poiWithMapItem:(MKMapItem *)item {
@@ -261,6 +265,17 @@
     MKMapItem *item = self.savedSearchResults[self.selectedIndex];
     POI *mapPOI = [self poiWithMapItem:item];
     
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POICategory"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    
+    id delegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    NSError *error = nil;
+    
+    NSArray *fetchedCategories = [context executeFetchRequest:fetchRequest error:&error];
+    
+    self.category.categoryNames = [fetchedCategories mutableCopy];
+    [self.categoryTableView reloadData];
     
 }
 
@@ -288,8 +303,10 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == [alertView cancelButtonIndex]){
-
+        
         NSString *addedCategoryName = [alertView textFieldAtIndex:0].text;
+        
+        POICategory *categoryName = [self poiCategoryWithName:addedCategoryName];
         
         [self.category.categoryNames addObject:addedCategoryName];
         [self.categoryTableView reloadData];
