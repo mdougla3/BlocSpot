@@ -25,4 +25,7 @@
 - (void)addPois:(NSSet *)values;
 - (void)removePois:(NSSet *)values;
 
+-(POICategory *)poiCategoryWithName:(NSString *)name;
+
+
 @end

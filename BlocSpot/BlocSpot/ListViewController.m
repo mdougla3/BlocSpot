@@ -11,9 +11,7 @@
 #import "LocationManager.h"
 #import "ListDetailViewController.h"
 #import "POI.h"
-#import "ColoredCategory.h"
 #import "ListDetailView.h"
-#import "ColoredCategory.h"
 
 @interface ListViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchDisplayDelegate>
 
@@ -24,12 +22,12 @@
 @property (nonatomic) MKCoordinateRegion listSearchRegion;
 @property (nonatomic, retain) NSIndexPath *checkedIndexPath;
 @property (assign) BOOL wasSaved;
-@property ColoredCategory *category;
 @property (weak, nonatomic) IBOutlet ListDetailView *listDetailView;
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
 @property (strong, nonatomic) UIVisualEffectView *blurEffectView;
 @property (weak, nonatomic) IBOutlet UITableView *categoryTableView;
 @property (strong, nonatomic) UIButton *addCategoryButton;
+@property (strong, nonatomic) NSMutableArray *categories;
 
 
 @end
@@ -41,7 +39,6 @@
     self.listTableView.sectionHeaderHeight = 40;
     self.wasSaved = NO;
     self.categoryTableView.hidden = YES;
-    self.category = [[ColoredCategory alloc] init];
 
 
     self.listDetailView.alpha = 0.0;
@@ -52,7 +49,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (tableView == self.categoryTableView) {
-        return self.category.categoryNames.count;
+        return self.categories.count;
     }
     else if (section == 0) {
        return self.returnMapItems.count;
@@ -63,7 +60,7 @@
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if (tableView == self.categoryTableView) {
-        cell.backgroundColor = [self.category.categoryColors objectAtIndex:indexPath.row];
+        cell.backgroundColor = [self.categories objectAtIndex:indexPath.row];
     }
 }
 
@@ -71,7 +68,7 @@
     
     if (tableView == self.categoryTableView) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
-        cell.textLabel.text = [self.category.categoryNames objectAtIndex:indexPath.row];
+        cell.textLabel.text = [self.categories objectAtIndex:indexPath.row];
         return cell;
     }
     else {
@@ -163,7 +160,6 @@
     
     self.listDetailView.alpha = 0.0;
     self.categoryTableView.hidden = NO;
-    [self.category createColors];
     [self.categoryTableView reloadData];
     
     self.addCategoryButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
@@ -201,7 +197,7 @@
         
         NSString *addedCategoryName = [alertView textFieldAtIndex:0].text;
         
-        [self.category.categoryNames addObject:addedCategoryName];
+        [self.categories addObject:addedCategoryName];
         [self.categoryTableView reloadData];
         
         

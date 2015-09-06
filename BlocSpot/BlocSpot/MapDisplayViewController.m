@@ -15,6 +15,7 @@
 #import "CategoryView.h"
 #import "ColoredCategory.h"
 #import "POICategory.h"
+#import "UIColor+String.h"
 
 @interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, UIAlertViewDelegate>
 
@@ -29,11 +30,11 @@
 @property (strong, nonatomic) NSArray *savedMapItems;
 @property (weak, nonatomic) IBOutlet CategoryView *categoryView;
 @property (strong, nonatomic) UIVisualEffectView *blurEffectView;
-@property (strong, nonatomic) ColoredCategory *category;
 @property (weak, nonatomic) IBOutlet UITableView *categoryTableView;
 @property (strong, nonatomic) UIButton *addCategoryButton;
 @property (strong, nonatomic) NSArray *savedSearchResults;
 @property (assign, nonatomic) NSInteger selectedIndex;
+@property (strong, nonatomic) NSMutableArray *categories;
 
 @end
 
@@ -49,7 +50,6 @@
     self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
     self.categoryTableView.hidden = YES;
-    self.category = [[ColoredCategory alloc] init];
     
     self.categoryView.alpha = 0.0;
     self.categoryView.layer.cornerRadius = 15;
@@ -111,7 +111,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
-        return self.category.categoryNames.count;
+        return self.categories.count;
     }
     return self.annotationArray.count;
 }
@@ -120,7 +120,8 @@
     
     if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@", [self.category.categoryNames objectAtIndex:indexPath.row]];
+        POICategory *category = self.categories[indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", category.name];
         return cell;
     }
     else {
@@ -140,25 +141,25 @@
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if (tableView == self.categoryTableView) {
-        cell.backgroundColor = [self.category.categoryColors objectAtIndex:indexPath.row];
+        POICategory *category = self.categories[indexPath.row];
+        cell.backgroundColor = [UIColor fromString:category.color];
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    
-    // NSRangeException', reason: '*** -[__NSArrayM objectAtIndex:]: index 3 beyond bounds [0 .. 0]' when clicking past 1st cell
-    
     if (tableView == self.categoryTableView) {
-        // Add in Save to CoreData for POI category name
+        MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+        POI *mapPOI = [self poiWithMapItem:item];
+        POICategory *category = self.categories[indexPath.row];
+        mapPOI.category = category.name;
+        
         self.categoryTableView.hidden = YES;
         [self.blurEffectView removeFromSuperview];
         [self.addCategoryButton removeFromSuperview];
-        
-        MKMapItem *item = self.savedSearchResults[self.selectedIndex];
-        POI *mapPOI = [self poiWithMapItem:item];
-        mapPOI.category = [NSString stringWithFormat:@"%@", self.category.categoryNames[indexPath.row]];
     }
+    
+    // NSRangeException', reason: '*** -[__NSArrayM objectAtIndex:]: index 3 beyond bounds [0 .. 0]' when clicking past 1st cell
     
     CustomAnnotation *annotation = self.annotationArray[indexPath.row];
     CLLocationCoordinate2D searchLocation = annotation.coordinate;
@@ -196,7 +197,7 @@
         // Add in mapData info to this view
         
         self.categoryView.alpha = 1.0;
-        self.categoryView.poiTextView.text = @"Poison berries are poison";
+        self.categoryView.poiTextView.text = @"A user can edit this later";
         self.categoryView.locationLabel.text = item.phoneNumber;
         self.categoryView.titleLabel.text = item.name;
     }];
@@ -229,6 +230,7 @@
     
     POICategory *poiCategory = [NSEntityDescription insertNewObjectForEntityForName:@"POICategory" inManagedObjectContext:context];
     poiCategory.name = name;
+    poiCategory.color = [[UIColor randomColor] toString];
     
     NSError *error = nil;
     if (![context save:&error]) {
@@ -254,7 +256,6 @@
     
     self.categoryView.alpha = 0.0;
     self.categoryTableView.hidden = NO;
-    [self.category createColors];
     [self.categoryTableView reloadData];
     
     self.addCategoryButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
@@ -274,7 +275,7 @@
     
     NSArray *fetchedCategories = [context executeFetchRequest:fetchRequest error:&error];
     
-    self.category.categoryNames = [fetchedCategories mutableCopy];
+    self.categories = [fetchedCategories mutableCopy];
     [self.categoryTableView reloadData];
     
 }
@@ -308,7 +309,7 @@
         
         POICategory *categoryName = [self poiCategoryWithName:addedCategoryName];
         
-        [self.category.categoryNames addObject:addedCategoryName];
+        [self.categories addObject:categoryName];
         [self.categoryTableView reloadData];
     
     

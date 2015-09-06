@@ -21,4 +21,6 @@
 @dynamic category;
 @dynamic categoryType;
 
+
+
 @end
