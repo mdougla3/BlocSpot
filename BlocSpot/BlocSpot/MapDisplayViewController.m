@@ -14,7 +14,6 @@
 #import "POI.h"
 #import "CategoryView.h"
 #import "ColoredCategory.h"
-#import "POICategory.h"
 #import "UIColor+String.h"
 
 @interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, UIAlertViewDelegate>
@@ -34,7 +33,8 @@
 @property (strong, nonatomic) UIButton *addCategoryButton;
 @property (strong, nonatomic) NSArray *savedSearchResults;
 @property (assign, nonatomic) NSInteger selectedIndex;
-@property (strong, nonatomic) NSMutableArray *categories;
+@property (strong, nonatomic) NSMutableArray *savedPOIs;
+@property (strong, nonatomic) NSMutableArray *savedCategories;
 
 @end
 
@@ -50,11 +50,25 @@
     self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
     self.categoryTableView.hidden = YES;
+    self.savedCategories = [@[] mutableCopy];
+    self.savedPOIs = [@[]mutableCopy];
     
     self.categoryView.alpha = 0.0;
     self.categoryView.layer.cornerRadius = 15;
     self.categoryView.clipsToBounds = YES;
     self.isRegionSet = NO;
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POI"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    
+    id delegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    NSError *error = nil;
+    
+    NSArray *fetchedCategories = [context executeFetchRequest:fetchRequest error:&error];
+    
+    self.savedPOIs = [fetchedCategories mutableCopy];
+    [self.categoryTableView reloadData];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -111,7 +125,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
-        return self.categories.count;
+        return self.savedCategories.count;
     }
     return self.annotationArray.count;
 }
@@ -120,8 +134,9 @@
     
     if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
-        POICategory *category = self.categories[indexPath.row];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@", category.name];
+        POI *poisWithCategory = self.savedPOIs[indexPath.row];
+        self.savedCategories = [@[poisWithCategory.category] mutableCopy];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", self.savedCategories[indexPath.row]];
         return cell;
     }
     else {
@@ -141,8 +156,8 @@
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if (tableView == self.categoryTableView) {
-        POICategory *category = self.categories[indexPath.row];
-        cell.backgroundColor = [UIColor fromString:category.color];
+        POI *poiCategory = [self poiCategoryWithName:self.savedCategories[indexPath.row]];
+        cell.backgroundColor = [UIColor fromString:poiCategory.categoryColor];
     }
 }
 
@@ -151,15 +166,13 @@
     if (tableView == self.categoryTableView) {
         MKMapItem *item = self.savedSearchResults[self.selectedIndex];
         POI *mapPOI = [self poiWithMapItem:item];
-        POICategory *category = self.categories[indexPath.row];
-        mapPOI.category = category.name;
+        mapPOI.category = self.savedCategories[indexPath.row];
+        
         
         self.categoryTableView.hidden = YES;
         [self.blurEffectView removeFromSuperview];
         [self.addCategoryButton removeFromSuperview];
     }
-    
-    // NSRangeException', reason: '*** -[__NSArrayM objectAtIndex:]: index 3 beyond bounds [0 .. 0]' when clicking past 1st cell
     
     CustomAnnotation *annotation = self.annotationArray[indexPath.row];
     CLLocationCoordinate2D searchLocation = annotation.coordinate;
@@ -223,14 +236,14 @@
     return poi;
 }
 
--(POICategory *)poiCategoryWithName:(NSString *)name {
+-(POI *)poiCategoryWithName:(NSString *)name {
     
     id delegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
     
-    POICategory *poiCategory = [NSEntityDescription insertNewObjectForEntityForName:@"POICategory" inManagedObjectContext:context];
-    poiCategory.name = name;
-    poiCategory.color = [[UIColor randomColor] toString];
+    POI *poiCategory = [NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:context];
+    poiCategory.category = name;
+    poiCategory.categoryColor = [[UIColor randomColor] toString];
     
     NSError *error = nil;
     if (![context save:&error]) {
@@ -249,10 +262,16 @@
 }
 
 - (IBAction)visitedButton:(UIButton *)sender {
+    MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+    POI *mapPOI = [self poiWithMapItem:item];
+    mapPOI.visited = @YES;
     
 }
 
 - (IBAction)saveButton:(UIButton *)sender {
+    
+    MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+    POI *mapPOI = [self poiWithMapItem:item];
     
     self.categoryView.alpha = 0.0;
     self.categoryTableView.hidden = NO;
@@ -262,21 +281,6 @@
     self.addCategoryButton.frame = CGRectMake(310, 115, 25, 25);
     [self.addCategoryButton addTarget:self action:@selector(addCategoryButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.mapView addSubview:self.addCategoryButton];
-    
-    MKMapItem *item = self.savedSearchResults[self.selectedIndex];
-    POI *mapPOI = [self poiWithMapItem:item];
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POICategory"];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-    
-    id delegate = [[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [delegate managedObjectContext];
-    NSError *error = nil;
-    
-    NSArray *fetchedCategories = [context executeFetchRequest:fetchRequest error:&error];
-    
-    self.categories = [fetchedCategories mutableCopy];
-    [self.categoryTableView reloadData];
     
 }
 
@@ -307,9 +311,10 @@
         
         NSString *addedCategoryName = [alertView textFieldAtIndex:0].text;
         
-        POICategory *categoryName = [self poiCategoryWithName:addedCategoryName];
+        POI *categoryName = [self poiCategoryWithName:addedCategoryName];
         
-        [self.categories addObject:categoryName];
+        [self.savedCategories addObject:categoryName];
+        self.categoryTableView.hidden = NO;
         [self.categoryTableView reloadData];
     
     

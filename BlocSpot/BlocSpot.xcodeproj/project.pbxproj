@@ -20,12 +20,11 @@
 		C511A6561B71C219005EB31E /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = C511A6551B71C219005EB31E /* CustomAnnotation.m */; };
 		C511A6581B729769005EB31E /* pin.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C511A6571B729769005EB31E /* pin.jpg */; };
 		C511A65B1B74535F005EB31E /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C511A65A1B74535F005EB31E /* LocationManager.m */; };
-		C551EEB41B7D9E7800610EBC /* POICategory.m in Sources */ = {isa = PBXBuildFile; fileRef = C551EEB31B7D9E7800610EBC /* POICategory.m */; };
-		C551EEB71B7D9E7900610EBC /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = C551EEB61B7D9E7900610EBC /* POI.m */; };
 		C551EEBD1B803C9100610EBC /* CategoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C551EEBC1B803C9100610EBC /* CategoryView.m */; };
 		C555DCD61B8E84E300B9FEB4 /* ListDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = C555DCD51B8E84E300B9FEB4 /* ListDetailView.m */; };
 		C555DCD91B968FC900B9FEB4 /* SortedCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C555DCD81B968FC900B9FEB4 /* SortedCategoryViewController.m */; };
 		C5C9C9EC1B9936BB00E0776C /* UIColor+String.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9EB1B9936BB00E0776C /* UIColor+String.m */; };
+		C5C9C9EF1B9D016500E0776C /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9EE1B9D016500E0776C /* POI.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,10 +61,6 @@
 		C511A6571B729769005EB31E /* pin.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pin.jpg; sourceTree = "<group>"; };
 		C511A6591B74535F005EB31E /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		C511A65A1B74535F005EB31E /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
-		C551EEB21B7D9E7800610EBC /* POICategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POICategory.h; path = ../POICategory.h; sourceTree = "<group>"; };
-		C551EEB31B7D9E7800610EBC /* POICategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POICategory.m; path = ../POICategory.m; sourceTree = "<group>"; };
-		C551EEB51B7D9E7900610EBC /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POI.h; path = ../POI.h; sourceTree = "<group>"; };
-		C551EEB61B7D9E7900610EBC /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POI.m; path = ../POI.m; sourceTree = "<group>"; };
 		C551EEBB1B803C9100610EBC /* CategoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryView.h; sourceTree = "<group>"; };
 		C551EEBC1B803C9100610EBC /* CategoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryView.m; sourceTree = "<group>"; };
 		C555DCD41B8E84E300B9FEB4 /* ListDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListDetailView.h; sourceTree = "<group>"; };
@@ -74,6 +69,9 @@
 		C555DCD81B968FC900B9FEB4 /* SortedCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortedCategoryViewController.m; sourceTree = "<group>"; };
 		C5C9C9EA1B9936BB00E0776C /* UIColor+String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+String.h"; sourceTree = "<group>"; };
 		C5C9C9EB1B9936BB00E0776C /* UIColor+String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+String.m"; sourceTree = "<group>"; };
+		C5C9C9ED1B9D016500E0776C /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POI.h; path = ../POI.h; sourceTree = "<group>"; };
+		C5C9C9EE1B9D016500E0776C /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POI.m; path = ../POI.m; sourceTree = "<group>"; };
+		C5C9C9F01B9D061100E0776C /* Datamodel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Datamodel2.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,10 +137,8 @@
 				C511A62F1B71C01C005EB31E /* Images.xcassets */,
 				C511A6311B71C01C005EB31E /* LaunchScreen.xib */,
 				C511A6261B71C01C005EB31E /* BlocSpot.xcdatamodeld */,
-				C551EEB51B7D9E7900610EBC /* POI.h */,
-				C551EEB61B7D9E7900610EBC /* POI.m */,
-				C551EEB21B7D9E7800610EBC /* POICategory.h */,
-				C551EEB31B7D9E7800610EBC /* POICategory.m */,
+				C5C9C9ED1B9D016500E0776C /* POI.h */,
+				C5C9C9EE1B9D016500E0776C /* POI.m */,
 				C511A61F1B71C01C005EB31E /* Supporting Files */,
 			);
 			path = BlocSpot;
@@ -280,11 +276,10 @@
 				C555DCD61B8E84E300B9FEB4 /* ListDetailView.m in Sources */,
 				C511A64D1B71C102005EB31E /* ListViewController.m in Sources */,
 				C511A64A1B71C0FA005EB31E /* MapDisplayViewController.m in Sources */,
-				C551EEB41B7D9E7800610EBC /* POICategory.m in Sources */,
+				C5C9C9EF1B9D016500E0776C /* POI.m in Sources */,
 				C555DCD91B968FC900B9FEB4 /* SortedCategoryViewController.m in Sources */,
 				C511A6281B71C01C005EB31E /* BlocSpot.xcdatamodeld in Sources */,
 				C5C9C9EC1B9936BB00E0776C /* UIColor+String.m in Sources */,
-				C551EEB71B7D9E7900610EBC /* POI.m in Sources */,
 				C511A65B1B74535F005EB31E /* LocationManager.m in Sources */,
 				C511A6561B71C219005EB31E /* CustomAnnotation.m in Sources */,
 				C511A6251B71C01C005EB31E /* AppDelegate.m in Sources */,
@@ -501,6 +496,7 @@
 		C511A6261B71C01C005EB31E /* BlocSpot.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C5C9C9F01B9D061100E0776C /* Datamodel2.xcdatamodel */,
 				C511A6271B71C01C005EB31E /* BlocSpot.xcdatamodel */,
 			);
 			currentVersion = C511A6271B71C01C005EB31E /* BlocSpot.xcdatamodel */;

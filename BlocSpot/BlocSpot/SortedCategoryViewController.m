@@ -8,7 +8,6 @@
 
 #import "SortedCategoryViewController.h"
 #import "ColoredCategory.h"
-#import "POICategory.h"
 #import "UIColor+String.h"
 #import "POI.h"
 @import CoreData;
@@ -29,7 +28,7 @@
     self.categorySelectionTableView.hidden = NO;
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POI"];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"category" ascending:YES]];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
     
     id delegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
@@ -62,8 +61,8 @@
     if (tableView == self.categorySelectionTableView) {
         self.categorySelectionTableView.hidden = YES;
         self.displayResultsTableView.hidden = NO;
-        POI *category = self.categories[indexPath.row];
-        self.selectedCategoryName = [NSString stringWithFormat:@"%@", category.category];
+        POI *poiCategory = self.categories[indexPath.row];
+        self.selectedCategoryName = [NSString stringWithFormat:@"%@", poiCategory.category];
         [self.displayResultsTableView reloadData];
     }
 }
