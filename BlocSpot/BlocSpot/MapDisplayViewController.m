@@ -12,6 +12,7 @@
 #import "CustomAnnotation.h"
 #import "LocationManager.h"
 #import "POI.h"
+#import "POICategory.h"
 #import "CategoryView.h"
 #import "ColoredCategory.h"
 #import "UIColor+String.h"
@@ -134,8 +135,8 @@
     
     if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
-        POI *poisWithCategory = self.savedPOIs[indexPath.row];
-        self.savedCategories = [@[poisWithCategory.category] mutableCopy];
+        POICategory *poisWithCategory = self.savedCategories[indexPath.row];
+        self.savedCategories = [@[poisWithCategory.categoryName] mutableCopy];
         cell.textLabel.text = [NSString stringWithFormat:@"%@", self.savedCategories[indexPath.row]];
         return cell;
     }
@@ -156,7 +157,7 @@
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if (tableView == self.categoryTableView) {
-        POI *poiCategory = [self poiCategoryWithName:self.savedCategories[indexPath.row]];
+        POICategory *poiCategory = [self poiCategoryWithName:self.savedCategories[indexPath.row]];
         cell.backgroundColor = [UIColor fromString:poiCategory.categoryColor];
     }
 }
@@ -166,8 +167,8 @@
     if (tableView == self.categoryTableView) {
         MKMapItem *item = self.savedSearchResults[self.selectedIndex];
         POI *mapPOI = [self poiWithMapItem:item];
-        mapPOI.category = self.savedCategories[indexPath.row];
-        
+        mapPOI.categoryType.categoryName = self.savedCategories[indexPath.row];
+
         
         self.categoryTableView.hidden = YES;
         [self.blurEffectView removeFromSuperview];
@@ -236,13 +237,13 @@
     return poi;
 }
 
--(POI *)poiCategoryWithName:(NSString *)name {
+-(POICategory *)poiCategoryWithName:(NSString *)name {
     
     id delegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
     
-    POI *poiCategory = [NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:context];
-    poiCategory.category = name;
+    POICategory *poiCategory = [NSEntityDescription insertNewObjectForEntityForName:@"POICategory" inManagedObjectContext:context];
+    poiCategory.categoryName = name;
     poiCategory.categoryColor = [[UIColor randomColor] toString];
     
     NSError *error = nil;
@@ -311,7 +312,7 @@
         
         NSString *addedCategoryName = [alertView textFieldAtIndex:0].text;
         
-        POI *categoryName = [self poiCategoryWithName:addedCategoryName];
+        POICategory *categoryName = [self poiCategoryWithName:addedCategoryName];
         
         [self.savedCategories addObject:categoryName];
         self.categoryTableView.hidden = NO;

@@ -24,7 +24,8 @@
 		C555DCD61B8E84E300B9FEB4 /* ListDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = C555DCD51B8E84E300B9FEB4 /* ListDetailView.m */; };
 		C555DCD91B968FC900B9FEB4 /* SortedCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C555DCD81B968FC900B9FEB4 /* SortedCategoryViewController.m */; };
 		C5C9C9EC1B9936BB00E0776C /* UIColor+String.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9EB1B9936BB00E0776C /* UIColor+String.m */; };
-		C5C9C9EF1B9D016500E0776C /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9EE1B9D016500E0776C /* POI.m */; };
+		C5C9C9F41B9FC70900E0776C /* POICategory.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9F31B9FC70900E0776C /* POICategory.m */; };
+		C5C9C9F71B9FC72700E0776C /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9F61B9FC72700E0776C /* POI.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,9 +70,12 @@
 		C555DCD81B968FC900B9FEB4 /* SortedCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortedCategoryViewController.m; sourceTree = "<group>"; };
 		C5C9C9EA1B9936BB00E0776C /* UIColor+String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+String.h"; sourceTree = "<group>"; };
 		C5C9C9EB1B9936BB00E0776C /* UIColor+String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+String.m"; sourceTree = "<group>"; };
-		C5C9C9ED1B9D016500E0776C /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POI.h; path = ../POI.h; sourceTree = "<group>"; };
-		C5C9C9EE1B9D016500E0776C /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POI.m; path = ../POI.m; sourceTree = "<group>"; };
 		C5C9C9F01B9D061100E0776C /* Datamodel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Datamodel2.xcdatamodel; sourceTree = "<group>"; };
+		C5C9C9F11B9FC6B200E0776C /* BlocSpot 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BlocSpot 3.xcdatamodel"; sourceTree = "<group>"; };
+		C5C9C9F21B9FC70900E0776C /* POICategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POICategory.h; path = ../POICategory.h; sourceTree = "<group>"; };
+		C5C9C9F31B9FC70900E0776C /* POICategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POICategory.m; path = ../POICategory.m; sourceTree = "<group>"; };
+		C5C9C9F51B9FC72700E0776C /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = POI.h; path = ../POI.h; sourceTree = "<group>"; };
+		C5C9C9F61B9FC72700E0776C /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = POI.m; path = ../POI.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,8 +124,6 @@
 				C555DCD81B968FC900B9FEB4 /* SortedCategoryViewController.m */,
 				C511A6481B71C0FA005EB31E /* MapDisplayViewController.h */,
 				C511A6491B71C0FA005EB31E /* MapDisplayViewController.m */,
-				C5C9C9EA1B9936BB00E0776C /* UIColor+String.h */,
-				C5C9C9EB1B9936BB00E0776C /* UIColor+String.m */,
 				C511A64B1B71C102005EB31E /* ListViewController.h */,
 				C511A64C1B71C102005EB31E /* ListViewController.m */,
 				C511A6511B71C1E3005EB31E /* MapItemData.h */,
@@ -130,6 +132,8 @@
 				C511A6551B71C219005EB31E /* CustomAnnotation.m */,
 				C511A6591B74535F005EB31E /* LocationManager.h */,
 				C511A65A1B74535F005EB31E /* LocationManager.m */,
+				C5C9C9EA1B9936BB00E0776C /* UIColor+String.h */,
+				C5C9C9EB1B9936BB00E0776C /* UIColor+String.m */,
 				C551EEBB1B803C9100610EBC /* CategoryView.h */,
 				C551EEBC1B803C9100610EBC /* CategoryView.m */,
 				C555DCD41B8E84E300B9FEB4 /* ListDetailView.h */,
@@ -137,8 +141,10 @@
 				C511A62F1B71C01C005EB31E /* Images.xcassets */,
 				C511A6311B71C01C005EB31E /* LaunchScreen.xib */,
 				C511A6261B71C01C005EB31E /* BlocSpot.xcdatamodeld */,
-				C5C9C9ED1B9D016500E0776C /* POI.h */,
-				C5C9C9EE1B9D016500E0776C /* POI.m */,
+				C5C9C9F21B9FC70900E0776C /* POICategory.h */,
+				C5C9C9F31B9FC70900E0776C /* POICategory.m */,
+				C5C9C9F51B9FC72700E0776C /* POI.h */,
+				C5C9C9F61B9FC72700E0776C /* POI.m */,
 				C511A61F1B71C01C005EB31E /* Supporting Files */,
 			);
 			path = BlocSpot;
@@ -272,14 +278,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5C9C9F71B9FC72700E0776C /* POI.m in Sources */,
 				C551EEBD1B803C9100610EBC /* CategoryView.m in Sources */,
 				C555DCD61B8E84E300B9FEB4 /* ListDetailView.m in Sources */,
 				C511A64D1B71C102005EB31E /* ListViewController.m in Sources */,
 				C511A64A1B71C0FA005EB31E /* MapDisplayViewController.m in Sources */,
-				C5C9C9EF1B9D016500E0776C /* POI.m in Sources */,
 				C555DCD91B968FC900B9FEB4 /* SortedCategoryViewController.m in Sources */,
 				C511A6281B71C01C005EB31E /* BlocSpot.xcdatamodeld in Sources */,
 				C5C9C9EC1B9936BB00E0776C /* UIColor+String.m in Sources */,
+				C5C9C9F41B9FC70900E0776C /* POICategory.m in Sources */,
 				C511A65B1B74535F005EB31E /* LocationManager.m in Sources */,
 				C511A6561B71C219005EB31E /* CustomAnnotation.m in Sources */,
 				C511A6251B71C01C005EB31E /* AppDelegate.m in Sources */,
@@ -496,6 +503,7 @@
 		C511A6261B71C01C005EB31E /* BlocSpot.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C5C9C9F11B9FC6B200E0776C /* BlocSpot 3.xcdatamodel */,
 				C5C9C9F01B9D061100E0776C /* Datamodel2.xcdatamodel */,
 				C511A6271B71C01C005EB31E /* BlocSpot.xcdatamodel */,
 			);

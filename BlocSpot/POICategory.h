@@ -2,30 +2,20 @@
 //  POICategory.h
 //  BlocSpot
 //
-//  Created by McCay Barnes on 8/13/15.
+//  Created by McCay Barnes on 9/8/15.
 //  Copyright (c) 2015 McCay Barnes. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "POI.h"
 
 @class POI;
 
-@interface POICategory : NSManagedObject
+@interface POICategory : POI
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * color;
-@property (nonatomic, retain) NSSet *pois;
-@end
-
-@interface POICategory (CoreDataGeneratedAccessors)
-
-- (void)addPoisObject:(POI *)value;
-- (void)removePoisObject:(POI *)value;
-- (void)addPois:(NSSet *)values;
-- (void)removePois:(NSSet *)values;
-
--(POICategory *)poiCategoryWithName:(NSString *)name;
-
+@property (nonatomic, retain) NSString * categoryColor;
+@property (nonatomic, retain) NSString * categoryName;
+@property (nonatomic, retain) POI *pois;
 
 @end

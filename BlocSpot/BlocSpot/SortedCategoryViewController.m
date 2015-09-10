@@ -10,13 +10,16 @@
 #import "ColoredCategory.h"
 #import "UIColor+String.h"
 #import "POI.h"
+#import "POICategory.h"
 @import CoreData;
 
 @interface SortedCategoryViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) NSMutableArray *categories;
 @property (strong, nonatomic) NSString *selectedCategoryName;
 @property (strong, nonatomic) NSArray *selectedCategoryPOINames;
+@property (strong, nonatomic) NSMutableArray *savedPOIs;
+@property (strong, nonatomic) NSMutableArray *savedCategories;
+
 
 @end
 
@@ -36,7 +39,7 @@
     
     NSArray *fetchedCategories = [context executeFetchRequest:fetchRequest error:&error];
     
-    self.categories = [fetchedCategories mutableCopy];
+    self.savedPOIs = [fetchedCategories mutableCopy];
     [self.categorySelectionTableView reloadData];
 
 }
@@ -45,13 +48,13 @@
 
     if (tableView == self.categorySelectionTableView && self.categorySelectionTableView.hidden == NO) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
-        POI *poiCategory = self.categories[indexPath.row];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@", poiCategory.category];
+        POI *savedpoi = self.savedPOIs[indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", savedpoi.categoryType.categoryName];
         return cell;
     }
     else {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"sortedCategoryCell"];
-        POI *poiNames = self.categories[indexPath.row];
+        POI *poiNames = self.savedPOIs[indexPath.row];
         cell.textLabel.text = [NSString stringWithFormat:@"%@", poiNames.name];
         return cell;
     }
@@ -61,8 +64,8 @@
     if (tableView == self.categorySelectionTableView) {
         self.categorySelectionTableView.hidden = YES;
         self.displayResultsTableView.hidden = NO;
-        POI *poiCategory = self.categories[indexPath.row];
-        self.selectedCategoryName = [NSString stringWithFormat:@"%@", poiCategory.category];
+        POI *poiCategory = self.savedPOIs[indexPath.row];
+        self.selectedCategoryName = [NSString stringWithFormat:@"%@", poiCategory.categoryType.categoryName];
         [self.displayResultsTableView reloadData];
     }
 }
@@ -70,16 +73,17 @@
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if (tableView == self.categorySelectionTableView) {
-        POI *selectedcategory = self.categories[indexPath.row];
+        POI *selectedcategory = self.savedCategories[indexPath.row];
         cell.backgroundColor = [UIColor fromString:selectedcategory.category];
     }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.categorySelectionTableView) {
-        return self.categories.count;
+        //return self.savedCategories.count;
+        return 5;
     }
-    return self.categories.count;
+    return self.savedPOIs.count;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

@@ -2,18 +2,19 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14F27" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="POI" representedClassName="POI" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="placeDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="visited" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="categoryType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="POICategory" inverseName="pois" inverseEntity="POICategory" syncable="YES"/>
     </entity>
-    <entity name="POICategory" parentEntity="POI" syncable="YES">
+    <entity name="POICategory" representedClassName="POICategory" parentEntity="POI" syncable="YES">
         <attribute name="categoryColor" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="categoryName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="pois" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="POI" inverseName="categoryType" inverseEntity="POI" syncable="YES"/>
     </entity>
     <elements>
-        <element name="POI" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="POI" positionX="-63" positionY="-18" width="128" height="135"/>
         <element name="POICategory" positionX="-63" positionY="27" width="128" height="90"/>
     </elements>
 </model>
