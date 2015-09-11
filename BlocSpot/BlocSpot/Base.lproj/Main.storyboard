@@ -41,12 +41,11 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yb3-eR-m8O">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Click Here to Add A Quick Note!" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Yb3-eR-m8O">
                                         <rect key="frame" x="8" y="126" width="284" height="106"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="backgroundColor" red="0.79389599116161613" green="0.79389599116161613" blue="0.79389599116161613" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ytH-7x-I2c">
                                         <rect key="frame" x="233" y="22" width="48" height="30"/>
@@ -57,8 +56,19 @@
                                             <action selector="cancelButton:" destination="IgI-sz-mKL" eventType="touchUpInside" id="RYa-Dx-rBm"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ita-TY-PoF">
+                                        <rect key="frame" x="223" y="52" width="65" height="30"/>
+                                        <color key="backgroundColor" red="0.79389599116161613" green="0.59372606835672748" blue="0.071168143985455706" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Share!">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sharePOI:" destination="IgI-sz-mKL" eventType="touchUpInside" id="yea-M1-ud9"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJO-m6-g1F">
-                                        <rect key="frame" x="233" y="88" width="46" height="30"/>
+                                        <rect key="frame" x="220" y="88" width="65" height="30"/>
                                         <color key="backgroundColor" red="0.3551680628249575" green="1" blue="0.37184227957576044" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Visited">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -68,8 +78,19 @@
                                             <action selector="visitedButton:" destination="IgI-sz-mKL" eventType="touchUpInside" id="m5X-ia-afI"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S8H-nD-Tg3">
+                                        <rect key="frame" x="8" y="237" width="284" height="25"/>
+                                        <color key="backgroundColor" red="0.26475465590383784" green="0.36409653804267894" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Get Directions">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="getDirections:" destination="IgI-sz-mKL" eventType="touchUpInside" id="GBj-ae-Ew6"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aWo-kV-auK">
-                                        <rect key="frame" x="8" y="235" width="284" height="57"/>
+                                        <rect key="frame" x="8" y="265" width="284" height="25"/>
                                         <color key="backgroundColor" red="1" green="0.2167802144" blue="0.2542548932" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Save">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -202,7 +223,7 @@
                                     <outlet property="delegate" destination="hfw-XS-Rih" id="qhP-Wo-TjR"/>
                                 </connections>
                             </searchBar>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6AH-CE-UnA" customClass="ListDetailView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6AH-CE-UnA" customClass="ListDetailView">
                                 <rect key="frame" x="150" y="150" width="300" height="300"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0i-hR-mtf">
