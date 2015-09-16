@@ -37,9 +37,17 @@
     NSManagedObjectContext *context = [delegate managedObjectContext];
     NSError *error = nil;
     
+    NSArray *fetchedPois = [context executeFetchRequest:fetchRequest error:&error];
+    
+    self.savedPOIs = [fetchedPois mutableCopy];
+    
+    fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POICategory"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"categoryName" ascending:YES]];
+    
     NSArray *fetchedCategories = [context executeFetchRequest:fetchRequest error:&error];
     
-    self.savedPOIs = [fetchedCategories mutableCopy];
+    self.savedCategories = [fetchedCategories mutableCopy];
+    
     [self.categorySelectionTableView reloadData];
 
 }
@@ -48,8 +56,8 @@
 
     if (tableView == self.categorySelectionTableView && self.categorySelectionTableView.hidden == NO) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
-        POI *savedpoi = self.savedPOIs[indexPath.row];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@", savedpoi.categoryType.categoryName];
+        POICategory *savedCategories = self.savedCategories[indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", savedCategories.categoryName];
         return cell;
     }
     else {
@@ -73,8 +81,8 @@
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if (tableView == self.categorySelectionTableView) {
-        POI *selectedcategory = self.savedCategories[indexPath.row];
-        cell.backgroundColor = [UIColor fromString:selectedcategory.category];
+        POICategory *selectedcategory = self.savedCategories[indexPath.row];
+        cell.backgroundColor = [UIColor fromString:selectedcategory.categoryColor];
     }
 }
 

@@ -27,7 +27,7 @@
 @property (strong, nonatomic) NSMutableArray *annotationArray;
 @property (nonatomic) MKCoordinateRegion searchRegion;
 @property (strong, nonatomic) IBOutlet UISearchDisplayController *searchController;
-@property (strong, nonatomic) NSArray *savedMapItems;
+@property (strong, nonatomic) MKMapItem *selectedMapItem;
 @property (weak, nonatomic) IBOutlet CategoryView *categoryView;
 @property (strong, nonatomic) UIVisualEffectView *blurEffectView;
 @property (weak, nonatomic) IBOutlet UITableView *categoryTableView;
@@ -36,6 +36,7 @@
 @property (assign, nonatomic) NSInteger selectedIndex;
 @property (strong, nonatomic) NSMutableArray *savedPOIs;
 @property (strong, nonatomic) NSMutableArray *savedCategories;
+@property (strong, nonatomic) POI *savedPoi;
 
 @end
 
@@ -66,9 +67,16 @@
     NSManagedObjectContext *context = [delegate managedObjectContext];
     NSError *error = nil;
     
+    NSArray *fetchedPois = [context executeFetchRequest:fetchRequest error:&error];
+    
+    self.savedPOIs = [fetchedPois mutableCopy];
+    
+    fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POICategory"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"categoryName" ascending:YES]];
+    
     NSArray *fetchedCategories = [context executeFetchRequest:fetchRequest error:&error];
     
-    self.savedPOIs = [fetchedCategories mutableCopy];
+    self.savedCategories = [fetchedCategories mutableCopy];
     [self.categoryTableView reloadData];
 }
 
@@ -136,8 +144,7 @@
     if (tableView == self.categoryTableView && self.categoryTableView.hidden == NO) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"categoryCell"];
         POICategory *poisWithCategory = self.savedCategories[indexPath.row];
-        self.savedCategories = [@[poisWithCategory.categoryName] mutableCopy];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@", self.savedCategories[indexPath.row]];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", poisWithCategory.categoryName];
         return cell;
     }
     else {
@@ -157,7 +164,7 @@
 - (void)tableView:(UITableView*)tableView willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if (tableView == self.categoryTableView) {
-        POICategory *poiCategory = [self poiCategoryWithName:self.savedCategories[indexPath.row]];
+        POICategory *poiCategory = self.savedCategories[indexPath.row];
         cell.backgroundColor = [UIColor fromString:poiCategory.categoryColor];
     }
 }
@@ -165,16 +172,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     if (tableView == self.categoryTableView) {
-        MKMapItem *item = self.savedSearchResults[self.selectedIndex];
-        POI *mapPOI = [self poiWithMapItem:item];
-        mapPOI.categoryType.categoryName = self.savedCategories[indexPath.row];
-
+        self.savedPoi.categoryType.categoryName = self.savedCategories[indexPath.row];
+                
+        id delegate = [[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *context = [delegate managedObjectContext];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            // there is an error
+            NSLog(@"%@", error);
+        }
         
         self.categoryTableView.hidden = YES;
         [self.blurEffectView removeFromSuperview];
         [self.addCategoryButton removeFromSuperview];
     }
     
+    else {
     CustomAnnotation *annotation = self.annotationArray[indexPath.row];
     CLLocationCoordinate2D searchLocation = annotation.coordinate;
     self.searchRegion = MKCoordinateRegionMakeWithDistance(searchLocation, 5, 5);
@@ -185,6 +199,7 @@
     [self.mapView addAnnotation:annotation];
     self.selectedIndex = indexPath.row;
     [self.searchController setActive:NO animated:YES];
+    }
 }
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation{
@@ -202,7 +217,7 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
     MKMapItem *item = self.savedSearchResults[self.selectedIndex];
-    self.savedMapItems = @[item];
+    self.selectedMapItem = item;
     
     [self createBlurEffect];
     
@@ -273,6 +288,7 @@
     
     MKMapItem *item = self.savedSearchResults[self.selectedIndex];
     POI *mapPOI = [self poiWithMapItem:item];
+    self.savedPoi = mapPOI;
     
     self.categoryView.alpha = 0.0;
     self.categoryTableView.hidden = NO;
