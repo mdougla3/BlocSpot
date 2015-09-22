@@ -17,7 +17,7 @@
 #import "ColoredCategory.h"
 #import "UIColor+String.h"
 
-@interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, UIAlertViewDelegate>
+@interface MapDisplayViewController () <CLLocationManagerDelegate, LocationManagerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDataSource, UITableViewDelegate, MKMapViewDelegate, UIAlertViewDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) NSString *searchTerm;
@@ -37,6 +37,7 @@
 @property (strong, nonatomic) NSMutableArray *savedPOIs;
 @property (strong, nonatomic) NSMutableArray *savedCategories;
 @property (strong, nonatomic) POI *savedPoi;
+@property (strong, nonatomic) NSString *savedNote;
 
 @end
 
@@ -54,6 +55,7 @@
     self.categoryTableView.hidden = YES;
     self.savedCategories = [@[] mutableCopy];
     self.savedPOIs = [@[]mutableCopy];
+    self.categoryView.poiTextView.delegate = self;
     
     self.categoryView.alpha = 0.0;
     self.categoryView.layer.cornerRadius = 15;
@@ -226,7 +228,6 @@
         // Add in mapData info to this view
         
         self.categoryView.alpha = 1.0;
-        self.categoryView.poiTextView.text = @"A user can edit this later";
         self.categoryView.locationLabel.text = item.phoneNumber;
         self.categoryView.titleLabel.text = item.name;
     }];
@@ -301,6 +302,25 @@
     
 }
 
+-(IBAction)getDirections:(UIButton *)sender{
+    MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+    [self displayRegionCenteredOnMapItem:item];
+}
+
+-(IBAction)sharePOI:(UIButton *)sender {
+    MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+    POI *mapPOI = [self poiWithMapItem:item];
+    mapPOI.placeDescription = self.savedNote;
+    
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[mapPOI.placeDescription] applicationActivities:nil];
+    [self presentViewController:activityViewController
+                       animated:YES
+                     completion:^{
+                         // ...
+                     }];
+    
+}
+
 -(void) createBlurEffect {
     
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
@@ -339,5 +359,40 @@
         [alertView dismissWithClickedButtonIndex:1 animated:YES];
     }
 }
+
+#pragma mark - Driving Directions
+
+- (void)displayRegionCenteredOnMapItem:(MKMapItem*)from {
+    
+        CLLocation* fromLocation = from.placemark.location;
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(fromLocation.coordinate, 10000, 10000);
+    
+        [MKMapItem openMapsWithItems:[NSArray arrayWithObject:from] launchOptions:[NSDictionary dictionaryWithObjectsAndKeys:[NSValue valueWithMKCoordinate:region.center], MKLaunchOptionsMapCenterKey,[NSValue valueWithMKCoordinateSpan:region.span], MKLaunchOptionsMapSpanKey, nil]];
+    
+    }
+
+# pragma mark - Editing the TextView
+
+-(void)textViewDidBeginEditing:(UITextView *)textView {
+        [self.categoryView.poiTextView becomeFirstResponder];
+        self.categoryView.poiTextView.text = @"";
+    }
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+        if([text isEqualToString:@"\n"]) {
+                [self.categoryView.poiTextView resignFirstResponder];
+        
+                MKMapItem *item = self.savedSearchResults[self.selectedIndex];
+                POI *mapPOI = [self poiWithMapItem:item];
+                mapPOI.placeDescription = self.categoryView.poiTextView.text;
+                self.savedNote = mapPOI.placeDescription;
+        
+                return NO;
+            }
+    
+        return YES;
+    }
+
 
 @end

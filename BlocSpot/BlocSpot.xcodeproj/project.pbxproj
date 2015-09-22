@@ -23,6 +23,7 @@
 		C551EEBD1B803C9100610EBC /* CategoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = C551EEBC1B803C9100610EBC /* CategoryView.m */; };
 		C555DCD61B8E84E300B9FEB4 /* ListDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = C555DCD51B8E84E300B9FEB4 /* ListDetailView.m */; };
 		C555DCD91B968FC900B9FEB4 /* SortedCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C555DCD81B968FC900B9FEB4 /* SortedCategoryViewController.m */; };
+		C5716AB91BB0E4A7004307E2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5716AB81BB0E4A7004307E2 /* MapKit.framework */; };
 		C5C9C9EC1B9936BB00E0776C /* UIColor+String.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9EB1B9936BB00E0776C /* UIColor+String.m */; };
 		C5C9C9F41B9FC70900E0776C /* POICategory.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9F31B9FC70900E0776C /* POICategory.m */; };
 		C5C9C9F71B9FC72700E0776C /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C9C9F61B9FC72700E0776C /* POI.m */; };
@@ -68,6 +69,7 @@
 		C555DCD51B8E84E300B9FEB4 /* ListDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListDetailView.m; sourceTree = "<group>"; };
 		C555DCD71B968FC900B9FEB4 /* SortedCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortedCategoryViewController.h; sourceTree = "<group>"; };
 		C555DCD81B968FC900B9FEB4 /* SortedCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortedCategoryViewController.m; sourceTree = "<group>"; };
+		C5716AB81BB0E4A7004307E2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C5C9C9EA1B9936BB00E0776C /* UIColor+String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+String.h"; sourceTree = "<group>"; };
 		C5C9C9EB1B9936BB00E0776C /* UIColor+String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+String.m"; sourceTree = "<group>"; };
 		C5C9C9F01B9D061100E0776C /* Datamodel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Datamodel2.xcdatamodel; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5716AB91BB0E4A7004307E2 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +102,7 @@
 		C511A6131B71C01C005EB31E = {
 			isa = PBXGroup;
 			children = (
+				C5716AB81BB0E4A7004307E2 /* MapKit.framework */,
 				C511A61E1B71C01C005EB31E /* BlocSpot */,
 				C511A63B1B71C01C005EB31E /* BlocSpotTests */,
 				C511A61D1B71C01C005EB31E /* Products */,
@@ -226,6 +230,11 @@
 				TargetAttributes = {
 					C511A61B1B71C01C005EB31E = {
 						CreatedOnToolsVersion = 6.4;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					C511A6371B71C01C005EB31E = {
 						CreatedOnToolsVersion = 6.4;

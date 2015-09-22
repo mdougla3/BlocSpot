@@ -41,10 +41,9 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yb3-eR-m8O">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Write a quick note here" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Yb3-eR-m8O">
                                         <rect key="frame" x="8" y="126" width="284" height="106"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -69,13 +68,34 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aWo-kV-auK">
-                                        <rect key="frame" x="8" y="235" width="284" height="57"/>
+                                        <rect key="frame" x="8" y="235" width="284" height="28"/>
                                         <color key="backgroundColor" red="1" green="0.2167802144" blue="0.2542548932" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Save">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="saveButton:" destination="IgI-sz-mKL" eventType="touchUpInside" id="9ZH-rL-jjf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L1R-fY-cnj">
+                                        <rect key="frame" x="233" y="52" width="46" height="30"/>
+                                        <color key="backgroundColor" red="1" green="0.2167802144" blue="0.2542548932" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Share!">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sharePOI:" destination="IgI-sz-mKL" eventType="touchUpInside" id="nnr-Jh-6te"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T3S-yB-qEa">
+                                        <rect key="frame" x="8" y="268" width="284" height="28"/>
+                                        <color key="backgroundColor" red="0.35516806280000002" green="1" blue="0.37184227959999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Get Directions">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="getDirections:" destination="IgI-sz-mKL" eventType="touchUpInside" id="NMM-ig-0SV"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -202,7 +222,7 @@
                                     <outlet property="delegate" destination="hfw-XS-Rih" id="qhP-Wo-TjR"/>
                                 </connections>
                             </searchBar>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6AH-CE-UnA" customClass="ListDetailView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6AH-CE-UnA" customClass="ListDetailView">
                                 <rect key="frame" x="150" y="150" width="300" height="300"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0i-hR-mtf">
