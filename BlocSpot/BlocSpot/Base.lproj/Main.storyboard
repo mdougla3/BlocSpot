@@ -59,7 +59,9 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJO-m6-g1F">
                                         <rect key="frame" x="233" y="88" width="46" height="30"/>
+                                        <color key="backgroundColor" red="0.3551680628249575" green="1" blue="0.37184227957576044" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Visited">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -136,7 +138,11 @@
                                 <segue destination="hfw-XS-Rih" kind="show" id="lwD-Hq-XPL"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="2HM-Yl-Q6k"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="2HM-Yl-Q6k">
+                            <connections>
+                                <segue destination="fRe-C2-deL" kind="show" id="uaZ-Ai-MJ2"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="categoryTableView" destination="vAr-oY-x1b" id="W6d-Pz-okd"/>
@@ -196,7 +202,7 @@
                                     <outlet property="delegate" destination="hfw-XS-Rih" id="qhP-Wo-TjR"/>
                                 </connections>
                             </searchBar>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6AH-CE-UnA" customClass="ListDetailView">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6AH-CE-UnA" customClass="ListDetailView">
                                 <rect key="frame" x="150" y="150" width="300" height="300"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0i-hR-mtf">
@@ -214,7 +220,7 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bw9-4g-ZUK">
                                         <rect key="frame" x="13" y="106" width="279" height="161"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -286,6 +292,72 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1906" y="356"/>
+        </scene>
+        <!--Sorted Category View Controller-->
+        <scene sceneID="8eM-d2-IcD">
+            <objects>
+                <viewController id="fRe-C2-deL" customClass="SortedCategoryViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qp3-JT-9Tn"/>
+                        <viewControllerLayoutGuide type="bottom" id="izD-PH-7g3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Itu-PE-ORg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="19" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9u0-NF-MJJ">
+                                <rect key="frame" x="150" y="150" width="300" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="Txh-fy-xOc"/>
+                                    <constraint firstAttribute="width" constant="300" id="mYA-qt-RHK"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="categoryCell" rowHeight="19" id="cMX-3o-JyQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cMX-3o-JyQ" id="qk4-wO-bQJ">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="fRe-C2-deL" id="B3t-Rt-bcp"/>
+                                    <outlet property="delegate" destination="fRe-C2-deL" id="M6j-he-j34"/>
+                                </connections>
+                            </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="iv6-Ta-lU8">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="sortedCategoryCell" id="Iyr-Ws-zRA">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Iyr-Ws-zRA" id="92W-3X-ojI">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="fRe-C2-deL" id="dAj-hY-zIW"/>
+                                    <outlet property="delegate" destination="fRe-C2-deL" id="2Pj-Ie-RX3"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9u0-NF-MJJ" firstAttribute="top" secondItem="qp3-JT-9Tn" secondAttribute="bottom" constant="86" id="647-De-QeQ"/>
+                            <constraint firstAttribute="centerX" secondItem="9u0-NF-MJJ" secondAttribute="centerX" id="QpS-eZ-3V2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="categorySelectionTableView" destination="9u0-NF-MJJ" id="uD7-dD-JeO"/>
+                        <outlet property="displayResultsTableView" destination="iv6-Ta-lU8" id="fOy-1M-1eD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4ZE-wx-V8c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1906" y="-338"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Krw-mN-hDA">
