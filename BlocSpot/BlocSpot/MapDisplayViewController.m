@@ -172,7 +172,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     if (tableView == self.categoryTableView) {
-        self.savedPoi.categoryType.categoryName = self.savedCategories[indexPath.row];
+        self.savedPoi.categoryType = self.savedCategories[indexPath.row];
                 
         id delegate = [[UIApplication sharedApplication] delegate];
         NSManagedObjectContext *context = [delegate managedObjectContext];

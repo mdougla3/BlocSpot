@@ -30,18 +30,13 @@
     self.displayResultsTableView.hidden = YES;
     self.categorySelectionTableView.hidden = NO;
     
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POI"];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
-    
     id delegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
     NSError *error = nil;
     
-    NSArray *fetchedPois = [context executeFetchRequest:fetchRequest error:&error];
+    [self fetchedPois];
     
-    self.savedPOIs = [fetchedPois mutableCopy];
-    
-    fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POICategory"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POICategory"];
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"categoryName" ascending:YES]];
     
     NSArray *fetchedCategories = [context executeFetchRequest:fetchRequest error:&error];
@@ -72,8 +67,9 @@
     if (tableView == self.categorySelectionTableView) {
         self.categorySelectionTableView.hidden = YES;
         self.displayResultsTableView.hidden = NO;
-        POI *poiCategory = self.savedPOIs[indexPath.row];
-        self.selectedCategoryName = [NSString stringWithFormat:@"%@", poiCategory.categoryType.categoryName];
+        POICategory *poiCategory = self.savedCategories[indexPath.row];
+        self.selectedCategoryName = [NSString stringWithFormat:@"%@", poiCategory.categoryName];
+        [self fetchedPois];
         [self.displayResultsTableView reloadData];
     }
 }
@@ -88,8 +84,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.categorySelectionTableView) {
-        //return self.savedCategories.count;
-        return 5;
+        return self.savedCategories.count;
     }
     return self.savedPOIs.count;
 }
@@ -101,6 +96,25 @@
     else {
         return self.selectedCategoryName;
     }
+}
+
+-(void)fetchedPois {
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"POI"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
+    
+    if (self.selectedCategoryName.length > 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"categoryType.categoryName = %@", self.selectedCategoryName];
+        fetchRequest.predicate = predicate;
+    }
+    
+    id delegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    NSError *error = nil;
+    
+    NSArray *fetchedPois = [context executeFetchRequest:fetchRequest error:&error];
+    
+    self.savedPOIs = [fetchedPois mutableCopy];
 }
 
 @end
