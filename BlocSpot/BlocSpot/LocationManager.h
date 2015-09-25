@@ -14,6 +14,7 @@
 @protocol LocationManagerDelegate <NSObject>
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations;
+-(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region;
 
 @end
 

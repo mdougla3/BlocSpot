@@ -38,6 +38,8 @@
 @property (strong, nonatomic) NSMutableArray *savedCategories;
 @property (strong, nonatomic) POI *savedPoi;
 @property (strong, nonatomic) NSString *savedNote;
+@property (nonatomic) float poiLatitude;
+@property (nonatomic) float poiLongitude;
 
 @end
 
@@ -49,6 +51,7 @@
     self.searchTerm = self.mapSearchBar.text;
     [[LocationManager sharedLocationManager] runLocationManager];
     [LocationManager sharedLocationManager].delegate = self;
+    
     self.mapSearchBar.delegate = self;
     self.mapView.delegate = self;
     self.mapView.showsUserLocation = YES;
@@ -107,6 +110,13 @@
         
     }  withString: self.searchTerm withRegion:self.mapView.region];
     
+}
+
+-(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
+    UILocalNotification *note = [[UILocalNotification alloc] init];
+    note.alertBody = [NSString stringWithFormat:@"You're entering your POI, %@!!", region.identifier];
+    [[UIApplication sharedApplication] scheduleLocalNotification:note];
+
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
@@ -221,6 +231,10 @@
     MKMapItem *item = self.savedSearchResults[self.selectedIndex];
     self.selectedMapItem = item;
     
+    self.poiLatitude = item.placemark.coordinate.latitude;
+    self.poiLongitude = item.placemark.coordinate.longitude;
+
+    
     [self createBlurEffect];
     
     [UIView animateWithDuration:0.4 animations:^{
@@ -290,6 +304,10 @@
     MKMapItem *item = self.savedSearchResults[self.selectedIndex];
     POI *mapPOI = [self poiWithMapItem:item];
     self.savedPoi = mapPOI;
+    mapPOI.longitude = [NSNumber numberWithFloat:self.poiLongitude];
+    mapPOI.latitude = [NSNumber numberWithFloat:self.poiLatitude];
+    
+    [[LocationManager sharedLocationManager].locationManager startMonitoringForRegion:[self regionWithPoi:mapPOI]];
     
     self.categoryView.alpha = 0.0;
     self.categoryTableView.hidden = NO;
@@ -328,6 +346,19 @@
     [self.blurEffectView setFrame:self.view.bounds];
     [self.mapView addSubview:self.blurEffectView];
 }
+
+-(CLCircularRegion *) regionWithPoi:(POI *)regionPoi {
+    
+    float centerLongitude = [regionPoi.longitude floatValue];
+    float centerLatitude = [regionPoi.latitude floatValue];
+    NSString *identifier =  regionPoi.name;
+    
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(centerLongitude, centerLatitude);
+    CLCircularRegion *region = [[CLCircularRegion alloc] initWithCenter:center radius:1000 identifier:identifier];
+    
+    return region;
+}
+
 
 -(void) addCategoryButtonPressed:(UIButton *)sender {
     
