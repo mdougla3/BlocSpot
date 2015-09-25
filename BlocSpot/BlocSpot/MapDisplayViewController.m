@@ -212,11 +212,14 @@
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self.savedCategories removeObjectAtIndex:indexPath.row];
     
+    POICategory *poiCategory = self.savedCategories[indexPath.row];
     id delegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [delegate managedObjectContext];
     
+    [context deleteObject:poiCategory];
+    
+    [self.savedCategories removeObjectAtIndex:indexPath.row];
     
     NSError *error = nil;
     if (![context save:&error]) {
