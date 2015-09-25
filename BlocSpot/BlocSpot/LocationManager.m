@@ -36,5 +36,10 @@
     [self.delegate locationManager:[LocationManager sharedLocationManager].locationManager didUpdateLocations:locations];
 }
 
+-(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
+    [self.delegate locationManager:manager didEnterRegion:region];
+}
+
+
 
 @end
