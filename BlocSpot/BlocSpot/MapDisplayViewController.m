@@ -189,6 +189,11 @@
         id delegate = [[UIApplication sharedApplication] delegate];
         NSManagedObjectContext *context = [delegate managedObjectContext];
         
+        //How to refer to the correct entity?
+        
+        NSManagedObject *poiCategory = [NSEntityDescription entityForName:@"POICategory" inManagedObjectContext:context];
+        [context deleteObject:poiCategory];
+        
         NSError *error = nil;
         if (![context save:&error]) {
             // there is an error
@@ -212,6 +217,29 @@
     self.selectedIndex = indexPath.row;
     [self.searchController setActive:NO animated:YES];
     }
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    POICategory *poiCategory = self.savedCategories[indexPath.row];
+    id delegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [delegate managedObjectContext];
+    
+    [context deleteObject:poiCategory];
+    
+    [self.savedCategories removeObjectAtIndex:indexPath.row];
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        // there is an error
+        NSLog(@"%@", error);
+    }
+    
+    [tableView reloadData];
 }
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation{
